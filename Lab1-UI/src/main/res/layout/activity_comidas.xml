@@ -39,36 +39,36 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
                 <CheckBox
-                    android:id="@+id/checkBox"
+                    android:id="@+id/morning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Mañana"
-                    app:layout_constraintEnd_toStartOf="@+id/checkBox2"
+                    app:layout_constraintEnd_toStartOf="@+id/afternoon"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                 <CheckBox
-                    android:id="@+id/checkBox2"
+                    android:id="@+id/afternoon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tarde"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/checkBox"
-                    app:layout_constraintEnd_toStartOf="@+id/checkBox4"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/morning"
+                    app:layout_constraintEnd_toStartOf="@+id/night"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/checkBox" />
+                    app:layout_constraintStart_toEndOf="@+id/morning" />
 
                 <CheckBox
-                    android:id="@+id/checkBox4"
+                    android:id="@+id/night"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:text="Noche"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/checkBox2"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/afternoon"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/checkBox2" />
+                    app:layout_constraintStart_toEndOf="@+id/afternoon" />
 
                 <RadioGroup
                     android:id="@+id/radioGroup2"
@@ -85,7 +85,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                     <RadioButton
-                        android:id="@+id/radioButton2"
+                        android:id="@+id/entrance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -94,7 +94,7 @@
                         tools:layout_editor_absoluteY="174dp" />
 
                     <RadioButton
-                        android:id="@+id/radioButton"
+                        android:id="@+id/main_dish"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -133,7 +133,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+                    app:layout_constraintTop_toBottomOf="@+id/afternoon" />
 
                 <Button
                     android:id="@+id/mealGallery"
@@ -192,7 +192,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/mealGallery"
-                    app:layout_constraintTop_toBottomOf="@+id/priceMeal" />
+                    app:layout_constraintTop_toBottomOf="@+id/priceMeal"
+                    android:onClick="showTimePickerDialog"/>
 
                 <TextView
                     android:id="@+id/textView4"
@@ -314,14 +315,14 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Ingredientes"
-            app:layout_constraintBottom_toTopOf="@+id/textView11"
+            app:layout_constraintBottom_toTopOf="@+id/type_of_meal"
             app:layout_constraintEnd_toStartOf="@+id/price"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imagePreview"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/preparation_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -330,34 +331,34 @@
             android:text="T.Preparación"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView11"
+            app:layout_constraintEnd_toStartOf="@+id/type_of_meal"
             app:layout_constraintStart_toEndOf="@+id/imagePreview"
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/type_of_meal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Tipo"
             android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView10"
-            app:layout_constraintEnd_toStartOf="@+id/textView12"
+            app:layout_constraintBaseline_toBaselineOf="@+id/preparation_time"
+            app:layout_constraintEnd_toStartOf="@+id/mealSchedule"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView10"
+            app:layout_constraintStart_toEndOf="@+id/preparation_time"
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/mealSchedule"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="Horario"
             android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
+            app:layout_constraintBaseline_toBaselineOf="@+id/type_of_meal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView11"
+            app:layout_constraintStart_toEndOf="@+id/type_of_meal"
             android:gravity="center"/>
 
     </android.support.constraint.ConstraintLayout>
