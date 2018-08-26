@@ -24,7 +24,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/nameMeal"
+                    android:id="@+id/name_meal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -32,7 +32,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:ems="10"
-                    android:hint="Nombre del Plato"
+                    android:hint="@string/plate_name"
                     android:inputType="textCapSentences|textNoSuggestions|text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Mañana"
+                    android:text="@string/morning"
                     app:layout_constraintEnd_toStartOf="@+id/afternoon"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
                     android:id="@+id/afternoon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tarde"
+                    android:text="@string/afternoon"
                     app:layout_constraintBaseline_toBaselineOf="@+id/morning"
                     app:layout_constraintEnd_toStartOf="@+id/night"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="Noche"
+                    android:text="@string/night"
                     app:layout_constraintBaseline_toBaselineOf="@+id/afternoon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/afternoon" />
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Entrada"
+                        android:text="@string/entrance"
                         tools:layout_editor_absoluteX="137dp"
                         tools:layout_editor_absoluteY="174dp" />
 
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Plato Fuerte"
+                        android:text="@string/main_dish"
                         tools:layout_editor_absoluteX="137dp"
                         tools:layout_editor_absoluteY="174dp" />
 
@@ -113,7 +113,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Formulario"
+                    android:text="@string/form"
                     android:textAppearance="@android:style/TextAppearance.Material.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +128,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
-                    android:text="Tipo de Plato"
+                    android:text="@string/type_of_plate"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,20 +136,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/afternoon" />
 
                 <Button
-                    android:id="@+id/mealGallery"
+                    android:id="@+id/meal_gallery"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Imagen del Plato"
-                    app:layout_constraintBottom_toBottomOf="@+id/timeMeal"
-                    app:layout_constraintEnd_toStartOf="@+id/timeMeal"
+                    android:text="@string/image_of_meal"
+                    app:layout_constraintBottom_toBottomOf="@+id/time_meal"
+                    app:layout_constraintEnd_toStartOf="@+id/time_meal"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/timeMeal" />
+                    app:layout_constraintTop_toTopOf="@+id/time_meal" />
 
                 <EditText
-                    android:id="@+id/priceMeal"
+                    android:id="@+id/price_meal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -158,14 +158,14 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="Precio"
+                    android:hint="@string/price"
                     android:inputType="number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
                 <EditText
-                    android:id="@+id/ingredientsMeal"
+                    android:id="@+id/ingredients_meal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -174,7 +174,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="Ingredientes"
+                    android:hint="@string/ingredients"
                     android:inputType="textNoSuggestions"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -182,17 +182,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                 <Button
-                    android:id="@+id/timeMeal"
+                    android:id="@+id/time_meal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="Tiempo de Preparación"
+                    android:text="@string/preparation_time"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/mealGallery"
-                    app:layout_constraintTop_toBottomOf="@+id/priceMeal"
+                    app:layout_constraintStart_toEndOf="@+id/meal_gallery"
+                    app:layout_constraintTop_toBottomOf="@+id/price_meal"
                     android:onClick="showTimePickerDialog"/>
 
                 <TextView
@@ -204,12 +204,12 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
-                    android:text="Horario de disponibilidad del plato"
+                    android:text="@string/dish_disponibility"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nameMeal" />
+                    app:layout_constraintTop_toBottomOf="@+id/name_meal" />
 
                 <TextView
                     android:id="@+id/textView5"
@@ -220,7 +220,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
-                    android:text="Precio del Plato"
+                    android:text="@string/dish_price"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -236,12 +236,12 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
-                    android:text="Ingredientes del Plato"
+                    android:text="@string/dish_ingredients"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/timeMeal" />
+                    app:layout_constraintTop_toBottomOf="@+id/time_meal" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -252,7 +252,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Actualizar preview" />
+            android:text="@string/preview_update" />
     </RelativeLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -275,7 +275,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/picture_frame" />
+            app:srcCompat="@android:drawable/picture_frame"
+            android:contentDescription="@string/dish_icon_description"/>
 
         <TextView
             android:id="@+id/name"
@@ -286,7 +287,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Nombre del Plato"
+            android:text="@string/dish_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imagePreview"
             app:layout_constraintTop_toTopOf="parent" />
@@ -297,7 +298,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="Precio"
+            android:text="@string/price"
             app:layout_constraintBottom_toBottomOf="@+id/ingredients"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -314,7 +315,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Ingredientes"
+            android:text="@string/ingredients"
             app:layout_constraintBottom_toTopOf="@+id/type_of_meal"
             app:layout_constraintEnd_toStartOf="@+id/price"
             app:layout_constraintHorizontal_bias="0.5"
@@ -328,7 +329,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="T.Preparación"
+            android:text="@string/preparation_time_acronym"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/type_of_meal"
@@ -339,21 +340,21 @@
             android:id="@+id/type_of_meal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tipo"
+            android:text="@string/type"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/preparation_time"
-            app:layout_constraintEnd_toStartOf="@+id/mealSchedule"
+            app:layout_constraintEnd_toStartOf="@+id/meal_schedule"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/preparation_time"
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/mealSchedule"
+            android:id="@+id/meal_schedule"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="Horario"
+            android:text="@string/schedule"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/type_of_meal"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,7 +29,7 @@ public class ComidasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comidas);
 
-        Button mealGallery = findViewById(R.id.mealGallery);
+        Button mealGallery = findViewById(R.id.meal_gallery);
 
         mealGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +82,9 @@ public class ComidasActivity extends AppCompatActivity {
 
     private void updateTextFields(){
 
-        EditText nameMeal = findViewById(R.id.nameMeal);
-        EditText priceMeal = findViewById(R.id.priceMeal);
-        EditText ingredientsMeal = findViewById(R.id.ingredientsMeal);
+        EditText nameMeal = findViewById(R.id.name_meal);
+        EditText priceMeal = findViewById(R.id.price_meal);
+        EditText ingredientsMeal = findViewById(R.id.ingredients_meal);
         if(nameMeal.getText().length() == 0 || priceMeal.getText().length() == 0 || ingredientsMeal.getText().length() == 0){
             Toast noMealMessage = Toast.makeText(getApplicationContext(),"One or more text inputs weren't filled", Toast.LENGTH_SHORT);
             noMealMessage.show();
@@ -119,7 +118,7 @@ public class ComidasActivity extends AppCompatActivity {
             schedule = schedule.substring(0,schedule.length()-1);
         }
         if(!schedule.isEmpty()){
-            TextView mealSchedule = findViewById(R.id.mealSchedule);
+            TextView mealSchedule = findViewById(R.id.meal_schedule);
             mealSchedule.setText(schedule);
         }else{
             Toast noMealMessage = Toast.makeText(getApplicationContext(),"No schedule was selected", Toast.LENGTH_SHORT);
@@ -133,9 +132,9 @@ public class ComidasActivity extends AppCompatActivity {
 
         TextView typeOfMeal = findViewById(R.id.type_of_meal);
         if(entrance){
-            typeOfMeal.setText("Entrance");
+            typeOfMeal.setText(R.string.entrance);
         }else if (mainDish){
-            typeOfMeal.setText("Main Dish");
+            typeOfMeal.setText(R.string.main_dish);
         }else{
             Toast noMealMessage = Toast.makeText(getApplicationContext(),"No type of meal selected", Toast.LENGTH_SHORT);
             noMealMessage.show();
