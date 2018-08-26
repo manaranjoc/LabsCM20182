@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -23,9 +25,9 @@ public class ComidasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comidas);
 
-        Button button = findViewById(R.id.button_gallery);
+        Button mealGallery = findViewById(R.id.mealGallery);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        mealGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PermissionListener permissionlistener = new PermissionListener() {
@@ -61,7 +63,22 @@ public class ComidasActivity extends AppCompatActivity {
             }
         });
 
+        Button updatePreviewMeal = findViewById(R.id.updatePreviewMeal);
+        updatePreviewMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText nameMeal = findViewById(R.id.nameMeal);
+                EditText priceMeal = findViewById(R.id.priceMeal);
+                EditText ingredientsMeal = findViewById(R.id.ingredientsMeal);
 
+                TextView name = findViewById(R.id.name);
+                TextView price = findViewById(R.id.price);
+                TextView ingredients = findViewById(R.id.ingredients);
+                name.setText(nameMeal.getText());
+                price.setText(priceMeal.getText());
+                ingredients.setText(ingredientsMeal.getText());
+            }
+        });
 
 
     }
