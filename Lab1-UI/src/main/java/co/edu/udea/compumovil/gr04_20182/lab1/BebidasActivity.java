@@ -79,11 +79,11 @@ public class BebidasActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateTextFields();
-
+                savePreferences();
             }
         });
 
-
+        loadPreferences();
     }
 
     private void updateTextFields(){
@@ -203,5 +203,33 @@ public class BebidasActivity extends AppCompatActivity {
         nameMeal.setText(savedInstanceState.getString("nameMeal"));
         priceMeal.setText(savedInstanceState.getString("priceMeal"));
         ingredientsMeal.setText(savedInstanceState.getString("ingredientsMeal"));
+    }
+
+    public void loadPreferences(){
+        SharedPreferences preferencias= getSharedPreferences("bebidas", context.MODE_PRIVATE);
+        TextView name = findViewById(R.id.name),
+                ingredients = findViewById(R.id.ingredients),
+                price = findViewById(R.id.price);
+
+
+    name.setText(preferencias.getString("name", getString(R.string.drink)));
+        ingredients.setText(preferencias.getString("ingredients", getString(R.string.ingredients)));
+        price.setText(preferencias.getString("price", getString(R.string.price)));
+
+
+    }
+    public void savePreferences(){
+        TextView name = findViewById(R.id.name),
+                ingredients = findViewById(R.id.ingredients),
+                price = findViewById(R.id.price);
+
+
+        SharedPreferences preferencias= getSharedPreferences("bebidas", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= preferencias.edit();
+        editor.putString("name", name.getText().toString());
+        editor.putString("ingredients", ingredients.getText().toString());
+        editor.putString("price", price.getText().toString());
+
+        editor.commit();
     }
 }
