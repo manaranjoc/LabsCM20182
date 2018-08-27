@@ -213,4 +213,65 @@ public class ComidasActivity extends AppCompatActivity {
         entrance.setChecked(false);
         mainDish.setChecked(false);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        TextView typeOfMeal = findViewById(R.id.type_of_meal),
+                name = findViewById(R.id.name),
+                ingredients = findViewById(R.id.ingredients),
+                price = findViewById(R.id.price),
+                preparationTime = findViewById(R.id.preparation_time),
+                mealSchedule = findViewById(R.id.meal_schedule);
+
+        ImageView imagePreview = findViewById(R.id.imagePreview);
+
+        EditText nameMeal = findViewById(R.id.name_meal),
+                priceMeal = findViewById(R.id.price_meal),
+                ingredientsMeal = findViewById(R.id.ingredients_meal);
+
+        CheckBox morning = findViewById(R.id.morning),
+                afternoon = findViewById(R.id.afternoon),
+                night = findViewById(R.id.night);
+
+        RadioButton entrance =  findViewById(R.id.entrance);
+        RadioButton mainDish = findViewById(R.id.main_dish);
+
+        outState.putString("typeOfMeal",typeOfMeal.getText().toString());
+        outState.putString("name", name.getText().toString());
+        outState.putString("ingredients", ingredients.getText().toString());
+        outState.putString("price", price.getText().toString());
+        outState.putString("preparationTime", preparationTime.getText().toString());
+        outState.putString("mealSchedule", mealSchedule.getText().toString());
+
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        TextView typeOfMeal = findViewById(R.id.type_of_meal),
+                name = findViewById(R.id.name),
+                ingredients = findViewById(R.id.ingredients),
+                price = findViewById(R.id.price),
+                preparationTime = findViewById(R.id.preparation_time),
+                mealSchedule = findViewById(R.id.meal_schedule);
+
+        ImageView imagePreview = findViewById(R.id.imagePreview);
+
+        EditText nameMeal = findViewById(R.id.name_meal),
+                priceMeal = findViewById(R.id.price_meal),
+                ingredientsMeal = findViewById(R.id.ingredients_meal);
+
+        CheckBox morning = findViewById(R.id.morning),
+                afternoon = findViewById(R.id.afternoon),
+                night = findViewById(R.id.night);
+
+        RadioButton entrance =  findViewById(R.id.entrance);
+        RadioButton mainDish = findViewById(R.id.main_dish);
+
+        typeOfMeal.setText(savedInstanceState.getString("typeOfMeal"));
+    }
 }
