@@ -23,4 +23,6 @@
     <string name="schedule">Horario</string>
     <string name="dish_icon_description">icono plato en registro</string>
     <string name="meal">Comidas</string>
+    <string name="clean">Clean</string>
+    <string name="exit">Exit</string>
 </resources>

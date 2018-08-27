@@ -23,4 +23,6 @@
     <string name="schedule">Schedule</string>
     <string name="dish_icon_description">icon of dish in the register</string>
     <string name="meal">Meals</string>
+    <string name="clean">Clean</string>
+    <string name="exit">Exit</string>
 </resources>

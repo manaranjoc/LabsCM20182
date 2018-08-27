@@ -6,6 +6,9 @@ import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -145,5 +148,69 @@ public class ComidasActivity extends AppCompatActivity {
         DialogFragment newFragment = new TimePickerFragment();
         FragmentManager manager = getFragmentManager();
         newFragment.show(manager, "timePicker");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_sub,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.clean:
+                cleanAll();
+                return true;
+            case R.id.exit:
+                finish();
+                System.exit(0);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void cleanAll(){
+        TextView typeOfMeal = findViewById(R.id.type_of_meal),
+                name = findViewById(R.id.name),
+                ingredients = findViewById(R.id.ingredients),
+                price = findViewById(R.id.price),
+                preparationTime = findViewById(R.id.preparation_time),
+                mealSchedule = findViewById(R.id.meal_schedule);
+
+        typeOfMeal.setText(R.string.type_of_plate);
+        name.setText(R.string.dish_name);
+        ingredients.setText(R.string.ingredients);
+        price.setText(R.string.price);
+        preparationTime.setText(R.string.preparation_time_acronym);
+        mealSchedule.setText(R.string.schedule);
+
+        ImageView imagePreview = findViewById(R.id.imagePreview);
+
+        imagePreview.setImageResource(android.R.color.transparent);
+
+        EditText nameMeal = findViewById(R.id.name_meal),
+            priceMeal = findViewById(R.id.price_meal),
+            ingredientsMeal = findViewById(R.id.ingredients_meal);
+
+        nameMeal.setText("");
+        priceMeal.setText("");
+        ingredientsMeal.setText("");
+
+        CheckBox morning = findViewById(R.id.morning),
+                afternoon = findViewById(R.id.afternoon),
+                night = findViewById(R.id.night);
+
+        morning.setChecked(false);
+        afternoon.setChecked(false);
+        night.setChecked(false);
+
+        RadioButton entrance =  findViewById(R.id.entrance);
+        RadioButton mainDish = findViewById(R.id.main_dish);
+
+        entrance.setChecked(false);
+        mainDish.setChecked(false);
     }
 }
