@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -114,7 +115,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/form"
-                    android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -129,7 +130,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:text="@string/type_of_plate"
-                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +206,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:text="@string/dish_disponibility"
-                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +222,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:text="@string/dish_price"
-                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -237,7 +238,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:text="@string/dish_ingredients"
-                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -265,18 +266,19 @@
             android:id="@+id/imagePreview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/dish_icon_description"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ingredients"
+            app:layout_constraintBottom_toTopOf="@+id/name"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/picture_frame"
-            android:contentDescription="@string/dish_icon_description"/>
+            app:srcCompat="@android:drawable/picture_frame" />
 
         <TextView
             android:id="@+id/name"
@@ -288,38 +290,40 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/dish_name"
+            app:layout_constraintBottom_toTopOf="@+id/price"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imagePreview"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagePreview" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical|end"
             android:text="@string/price"
-            app:layout_constraintBottom_toBottomOf="@+id/ingredients"
+            android:textAlignment="viewEnd"
+            app:layout_constraintBottom_toTopOf="@+id/type_of_meal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ingredients"
-            app:layout_constraintTop_toTopOf="@+id/ingredients"
-            android:gravity="center_vertical|end"
-            android:textAlignment="viewEnd"/>
+            app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <TextView
             android:id="@+id/ingredients"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/ingredients"
-            app:layout_constraintBottom_toTopOf="@+id/type_of_meal"
+            app:layout_constraintBottom_toTopOf="@+id/preparation_time"
             app:layout_constraintEnd_toStartOf="@+id/price"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imagePreview"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <TextView
@@ -329,24 +333,24 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:gravity="center"
             android:text="@string/preparation_time_acronym"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/type_of_meal"
-            app:layout_constraintStart_toEndOf="@+id/imagePreview"
-            android:gravity="center"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/type_of_meal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/type"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/preparation_time"
             app:layout_constraintEnd_toStartOf="@+id/meal_schedule"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/preparation_time"
-            android:gravity="center"/>
+            app:layout_constraintStart_toEndOf="@+id/preparation_time" />
 
         <TextView
             android:id="@+id/meal_schedule"
@@ -354,13 +358,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:gravity="center"
             android:text="@string/schedule"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/type_of_meal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/type_of_meal"
-            android:gravity="center"/>
+            app:layout_constraintStart_toEndOf="@+id/type_of_meal" />
 
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>
