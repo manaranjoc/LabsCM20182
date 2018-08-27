@@ -22,7 +22,5 @@
     <string name="type">Tipo</string>
     <string name="schedule">Horario</string>
     <string name="dish_icon_description">icono plato en registro</string>
-    <string name="min"> min</string>
-    <string name="h"> h </string>
     <string name="meal">Comidas</string>
 </resources>

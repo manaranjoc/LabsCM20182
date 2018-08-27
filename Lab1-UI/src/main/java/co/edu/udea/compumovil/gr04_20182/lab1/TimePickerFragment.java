@@ -20,10 +20,12 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     public void onTimeSet(TimePicker view, int hours, int minutes){
         TextView preparationTime = getActivity().findViewById(R.id.preparation_time);
+        String min = " min";
+        String horas = " h ";
         if(hours == 0){
-            preparationTime.setText(minutes+R.string.min);
+            preparationTime.setText(minutes+min);
         }else{
-            preparationTime.setText(hours+R.string.h+minutes+R.string.min);
+            preparationTime.setText(hours+horas+minutes+min);
         }
 
     }
