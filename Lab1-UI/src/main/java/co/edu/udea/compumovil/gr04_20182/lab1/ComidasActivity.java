@@ -245,6 +245,15 @@ public class ComidasActivity extends AppCompatActivity {
         outState.putString("preparationTime", preparationTime.getText().toString());
         outState.putString("mealSchedule", mealSchedule.getText().toString());
 
+        outState.putString("nameMeal", nameMeal.getText().toString());
+        outState.putString("priceMeal", priceMeal.getText().toString());
+        outState.putString("ingredientsMeal", ingredientsMeal.getText().toString());
+        outState.putBoolean("morning", morning.isChecked());
+        outState.putBoolean("afternoon", afternoon.isChecked());
+        outState.putBoolean("night", night.isChecked());
+
+        outState.putBoolean("entrance", entrance.isChecked());
+        outState.putBoolean("mainDish", mainDish.isChecked());
 
     }
 
@@ -273,5 +282,19 @@ public class ComidasActivity extends AppCompatActivity {
         RadioButton mainDish = findViewById(R.id.main_dish);
 
         typeOfMeal.setText(savedInstanceState.getString("typeOfMeal"));
+        name.setText(savedInstanceState.getString("name"));
+        ingredients.setText(savedInstanceState.getString("ingredients"));
+        price.setText(savedInstanceState.getString("price"));
+        preparationTime.setText(savedInstanceState.getString("preparationTime"));
+        mealSchedule.setText(savedInstanceState.getString("mealSchedule"));
+
+        nameMeal.setText(savedInstanceState.getString("nameMeal"));
+        priceMeal.setText(savedInstanceState.getString("priceMeal"));
+        ingredientsMeal.setText(savedInstanceState.getString("ingredientsMeal"));
+        morning.setChecked(savedInstanceState.getBoolean("morning"));
+        afternoon.setChecked(savedInstanceState.getBoolean("afternoon"));
+        night.setChecked(savedInstanceState.getBoolean("night"));
+        entrance.setChecked(savedInstanceState.getBoolean("entrance"));
+        mainDish.setChecked(savedInstanceState.getBoolean("mainDish"));
     }
 }
