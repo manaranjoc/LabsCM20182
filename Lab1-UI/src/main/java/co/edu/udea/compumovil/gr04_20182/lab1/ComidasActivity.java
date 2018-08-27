@@ -40,6 +40,7 @@ public class ComidasActivity extends AppCompatActivity {
 
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        recuperar();
 
         Button mealGallery = findViewById(R.id.meal_gallery);
 
@@ -338,7 +339,7 @@ public class ComidasActivity extends AppCompatActivity {
         mealSchedule.setText(sharedPreferences.getString("mealSchedule",getString(R.string.schedule)));
         Uri imageUri;
         try{
-            imageUri = Uri.parse(sharedPreferences.getString("url","sad"));
+            imageUri = Uri.parse(sharedPreferences.getString("uri","sad"));
             imagePreview.setImageURI(imageUri);
         }catch (IllegalArgumentException e){
             e.printStackTrace();

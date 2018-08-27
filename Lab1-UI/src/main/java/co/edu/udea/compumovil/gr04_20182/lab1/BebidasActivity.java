@@ -49,8 +49,14 @@ public class BebidasActivity extends AppCompatActivity {
                                     @Override
                                     public void onImageSelected(Uri uri) {
                                         // here is selected uri
+                                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("bebidas", context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("uri",uri.toString());
+                                        editor.apply();
+
                                         ImageView imagePreview = findViewById(R.id.imagePreview);
                                         imagePreview.setImageURI(uri);
+
                                     }
                                 })
                                 .create();
@@ -215,8 +221,15 @@ public class BebidasActivity extends AppCompatActivity {
     name.setText(preferencias.getString("name", getString(R.string.drink)));
         ingredients.setText(preferencias.getString("ingredients", getString(R.string.ingredients)));
         price.setText(preferencias.getString("price", getString(R.string.price)));
+        ImageView imagePreview = findViewById(R.id.imagePreview);
 
-
+        Uri imageUri;
+        try{
+            imageUri = Uri.parse(preferencias.getString("uri","sad"));
+            imagePreview.setImageURI(imageUri);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
     }
     public void savePreferences(){
         TextView name = findViewById(R.id.name),

@@ -21,7 +21,8 @@
         </activity>
 
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".BebidasActivity"></activity>
+        <activity android:name=".BebidasActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity android:name=".ComidasActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
