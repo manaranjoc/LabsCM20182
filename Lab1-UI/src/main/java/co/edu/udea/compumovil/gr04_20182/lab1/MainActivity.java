@@ -26,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button button2 = findViewById(R.id.button_bebidas);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent activityIntent = new Intent(MainActivity.this, BebidasActivity.class);
+                MainActivity.this.startActivity(activityIntent);
+            }
+        });
+
 
     }
 

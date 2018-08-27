@@ -29,4 +29,5 @@
     <string name="drink_image">Imagen bebida</string>
     <string name="clean">Clean</string>
     <string name="exit">Exit</string>
+    <string name="drinks">Drinks</string>
 </resources>
