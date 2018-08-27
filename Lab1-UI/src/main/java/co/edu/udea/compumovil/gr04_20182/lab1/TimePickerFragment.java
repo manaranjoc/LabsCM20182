@@ -3,6 +3,8 @@ package co.edu.udea.compumovil.gr04_20182.lab1;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -28,5 +30,9 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
             preparationTime.setText(hours+horas+minutes+min);
         }
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("preparationTime",preparationTime.getText().toString());
+        editor.apply();
     }
 }

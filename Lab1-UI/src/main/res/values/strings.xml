@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LabsCM20182</string>
+    <string name="app_name">MealsAndDrinks</string>
     <string name="Icon">Icon</string>
     <string name="plate_name">Dish Name</string>
     <string name="morning">Morning</string>
@@ -31,4 +31,5 @@
     <string name="clean">Clean</string>
     <string name="exit">Exit</string>
     <string name="drinks">Drinks</string>
+    <string name="preference_file_key">co.edu.udea.compumovil.gr04_20182.lab1.PREFERENCE_FILE_KEY</string>
 </resources>

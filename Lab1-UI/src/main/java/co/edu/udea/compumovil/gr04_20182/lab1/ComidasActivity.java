@@ -3,6 +3,8 @@ package co.edu.udea.compumovil.gr04_20182.lab1;
 import android.Manifest;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,16 +23,23 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 
 public class ComidasActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comidas);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         Button mealGallery = findViewById(R.id.meal_gallery);
 
@@ -45,6 +54,9 @@ public class ComidasActivity extends AppCompatActivity {
                                     @Override
                                     public void onImageSelected(Uri uri) {
                                         // here is selected uri
+                                        editor.putString("uri",uri.toString());
+                                        editor.apply();
+
                                         ImageView imagePreview = findViewById(R.id.imagePreview);
                                         imagePreview.setImageURI(uri);
                                     }
@@ -77,6 +89,7 @@ public class ComidasActivity extends AppCompatActivity {
                 updateTextFields();
                 mealScheduleUpdate();
                 typeOfMealUpdate();
+                editor.commit();
             }
         });
 
@@ -99,6 +112,9 @@ public class ComidasActivity extends AppCompatActivity {
         name.setText(nameMeal.getText());
         price.setText(priceMeal.getText());
         ingredients.setText(ingredientsMeal.getText());
+        editor.putString("name", name.getText().toString());
+        editor.putString("price", price.getText().toString());
+        editor.putString("ingredients", ingredients.getText().toString());
     }
 
     private void mealScheduleUpdate(){
@@ -117,12 +133,14 @@ public class ComidasActivity extends AppCompatActivity {
         if (night.isChecked()){
             schedule+=" Nig";
         }
+
         if(schedule.endsWith(",")){
             schedule = schedule.substring(0,schedule.length()-1);
         }
         if(!schedule.isEmpty()){
             TextView mealSchedule = findViewById(R.id.meal_schedule);
             mealSchedule.setText(schedule);
+            editor.putString("mealSchedule", schedule);
         }else{
             Toast noMealMessage = Toast.makeText(getApplicationContext(),"No schedule was selected", Toast.LENGTH_SHORT);
             noMealMessage.show();
@@ -142,6 +160,7 @@ public class ComidasActivity extends AppCompatActivity {
             Toast noMealMessage = Toast.makeText(getApplicationContext(),"No type of meal selected", Toast.LENGTH_SHORT);
             noMealMessage.show();
         }
+        editor.putString("typeOfMeal",typeOfMeal.getText().toString());
     }
 
     public void showTimePickerDialog(View v){
@@ -212,6 +231,9 @@ public class ComidasActivity extends AppCompatActivity {
 
         entrance.setChecked(false);
         mainDish.setChecked(false);
+
+        editor.clear();
+        editor.commit();
     }
 
     @Override
@@ -296,5 +318,30 @@ public class ComidasActivity extends AppCompatActivity {
         night.setChecked(savedInstanceState.getBoolean("night"));
         entrance.setChecked(savedInstanceState.getBoolean("entrance"));
         mainDish.setChecked(savedInstanceState.getBoolean("mainDish"));
+    }
+
+    private void recuperar(){
+        TextView typeOfMeal = findViewById(R.id.type_of_meal),
+                name = findViewById(R.id.name),
+                ingredients = findViewById(R.id.ingredients),
+                price = findViewById(R.id.price),
+                preparationTime = findViewById(R.id.preparation_time),
+                mealSchedule = findViewById(R.id.meal_schedule);
+
+        ImageView imagePreview = findViewById(R.id.imagePreview);
+
+        typeOfMeal.setText(sharedPreferences.getString("typeOfMeal",getString(R.string.type_of_plate)));
+        name.setText(sharedPreferences.getString("name",getString(R.string.dish_name)));
+        ingredients.setText(sharedPreferences.getString("ingredients",getString(R.string.ingredients)));
+        price.setText(sharedPreferences.getString("price",getString(R.string.price)));
+        preparationTime.setText(sharedPreferences.getString("preparationTime",getString(R.string.preparation_time_acronym)));
+        mealSchedule.setText(sharedPreferences.getString("mealSchedule",getString(R.string.schedule)));
+        Uri imageUri;
+        try{
+            imageUri = Uri.parse(sharedPreferences.getString("url","sad"));
+            imagePreview.setImageURI(imageUri);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
     }
 }
