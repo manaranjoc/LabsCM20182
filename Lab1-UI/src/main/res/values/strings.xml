@@ -23,6 +23,11 @@
     <string name="schedule">Schedule</string>
     <string name="dish_icon_description">icon of dish in the register</string>
     <string name="meal">Meals</string>
+    <string name="drink">Drink Name</string>
+    <string name="drink_ingredients">Drink Ingredients</string>
+    <string name="drink_price">Drink Price</string>
+    <string name="drink_image">Drink Image</string>
+
     <string name="clean">Clean</string>
     <string name="exit">Exit</string>
 </resources>

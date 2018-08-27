@@ -23,6 +23,10 @@
     <string name="schedule">Horario</string>
     <string name="dish_icon_description">icono plato en registro</string>
     <string name="meal">Comidas</string>
+    <string name="drink">Nombre de bebida</string>
+    <string name="drink_ingredients">Ingredientes de Bebida</string>
+    <string name="drink_price">Precio bebida</string>
+    <string name="drink_image">Imagen bebida</string>
     <string name="clean">Clean</string>
     <string name="exit">Exit</string>
 </resources>
