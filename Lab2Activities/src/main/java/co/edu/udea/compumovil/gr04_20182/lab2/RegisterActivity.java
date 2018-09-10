@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.gr04_20182.lab2;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -85,12 +86,17 @@ public class RegisterActivity extends AppCompatActivity{
                 values.put(UserContract.Column.NAME, name.getText().toString());
                 values.put(UserContract.Column.EMAIL, email.getText().toString());
                 values.put(UserContract.Column.PASSWORD, password.getText().toString());
-
+                boolean flag = false;
                 try {
                     db.insertWithOnConflict(UserContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
                     db.close();
+                    flag = true;
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "The User is already in the database", Toast.LENGTH_SHORT).show();
+                }
+                if(flag){
+                    Intent intent = new Intent(RegisterActivity.this, ActivityLogin.class);
+                    RegisterActivity.this.startActivity(intent);
                 }
 
 
