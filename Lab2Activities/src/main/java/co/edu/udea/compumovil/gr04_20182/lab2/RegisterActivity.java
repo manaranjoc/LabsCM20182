@@ -1,11 +1,14 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,6 +76,22 @@ public class RegisterActivity extends AppCompatActivity{
                 EditText name = findViewById(R.id.name);
                 EditText email = findViewById(R.id.email);
                 EditText password = findViewById(R.id.password);
+
+                UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
+                SQLiteDatabase db = usersDbHelper.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+
+                values.put(UserContract.Column.NAME, name.getText().toString());
+                values.put(UserContract.Column.EMAIL, email.getText().toString());
+                values.put(UserContract.Column.PASSWORD, password.getText().toString());
+
+                try {
+                    db.insertWithOnConflict(UserContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
+                    db.close();
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "The User is already in the database", Toast.LENGTH_SHORT).show();
+                }
 
 
             }

@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.gr04_20182.lab1;
+package co.edu.udea.compumovil.gr04_20182.lab2;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,7 +16,7 @@ public class UsersDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = String
-                .format("create table %s (%s int primary key, %s text, %s text, %s text",
+                .format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT UNIQUE,%s TEXT)",
                         UserContract.TABLE,
                         UserContract.Column.ID,
                         UserContract.Column.NAME,
