@@ -106,5 +106,29 @@ public class RegisterActivity extends AppCompatActivity{
 
             }
         });
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("Uri", uriApp);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        uriApp = savedInstanceState.getString("Uri");
+
+        ImageView profilePic = findViewById(R.id.image_preview);
+        Uri imageUri;
+        try{
+            imageUri = Uri.parse(uriApp);
+            profilePic.setImageURI(imageUri);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
     }
 }

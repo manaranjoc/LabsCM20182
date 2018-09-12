@@ -49,6 +49,7 @@ public class ActivityLogin extends AppCompatActivity{
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                                 editor.putBoolean("Logged", true);
+                                editor.putString("email", email.getText().toString());
                                 editor.commit();
 
                                 ActivityLogin.this.startActivity(intent);
