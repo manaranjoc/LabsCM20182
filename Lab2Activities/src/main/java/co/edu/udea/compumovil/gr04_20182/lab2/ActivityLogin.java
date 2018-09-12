@@ -1,6 +1,8 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,48 +19,60 @@ public class ActivityLogin extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
+        boolean isUserLogged = sharedPreferences.getBoolean("Logged", false);
+        if(isUserLogged){
+            Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+            ActivityLogin.this.startActivity(intent);
+        }else {
+            Button login = findViewById(R.id.login);
 
-        Button login = findViewById(R.id.login);
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText email = findViewById(R.id.email);
+                    EditText password = findViewById(R.id.password);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText email = findViewById(R.id.email);
-                EditText password = findViewById(R.id.password);
+                    UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
+                    SQLiteDatabase db = usersDbHelper.getWritableDatabase();
 
-                UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
-                SQLiteDatabase db = usersDbHelper.getWritableDatabase();
+                    String consultaSQL = "select * from " + UserContract.TABLE;
 
-                String consultaSQL = "select * from "+UserContract.TABLE;
+                    Cursor cursor = db.rawQuery(consultaSQL, null);
 
-                Cursor cursor = db.rawQuery(consultaSQL, null);
+                    Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                    boolean flag = true;
+                    while (cursor.moveToNext()) {
+                        if (cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(email.getText().toString())) {
+                            if (cursor.getString(cursor.getColumnIndex(UserContract.Column.PASSWORD)).equals(password.getText().toString())) {
+                                SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
-                boolean flag = true;
-                while (cursor.moveToNext()){
-                    if(cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(email.getText().toString())){
-                        if(cursor.getString(cursor.getColumnIndex(UserContract.Column.PASSWORD)).equals(password.getText().toString())){
-                            ActivityLogin.this.startActivity(intent);
-                            flag = false;
-                        }else{
-                            break;
+                                editor.putBoolean("Logged", true);
+                                editor.commit();
+
+                                ActivityLogin.this.startActivity(intent);
+                                flag = false;
+                            } else {
+                                break;
+                            }
                         }
                     }
+                    if (flag) {
+                        Toast.makeText(getApplicationContext(), "Wrong Email or Password", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                if(flag) {
-                    Toast.makeText(getApplicationContext(), "Wrong Email or Password", Toast.LENGTH_SHORT).show();
+            });
+
+            Button register = findViewById(R.id.register);
+
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent registerIntent = new Intent(ActivityLogin.this, RegisterActivity.class);
+                    ActivityLogin.this.startActivity(registerIntent);
                 }
-            }
-        });
-
-        Button register = findViewById(R.id.register);
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent registerIntent = new Intent(ActivityLogin.this, RegisterActivity.class);
-                ActivityLogin.this.startActivity(registerIntent);
-            }
-        });
+            });
+        }
     }
 }
