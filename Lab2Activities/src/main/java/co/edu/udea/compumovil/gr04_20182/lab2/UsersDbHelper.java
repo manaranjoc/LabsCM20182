@@ -16,12 +16,13 @@ public class UsersDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = String
-                .format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT UNIQUE,%s TEXT)",
+                .format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT UNIQUE,%s TEXT,%s TEXT)",
                         UserContract.TABLE,
                         UserContract.Column.ID,
                         UserContract.Column.NAME,
                         UserContract.Column.EMAIL,
-                        UserContract.Column.PASSWORD);
+                        UserContract.Column.PASSWORD,
+                        UserContract.Column.IMAGE);
         Log.d(TAG, "onCreate with SQL: "+sql);
         sqLiteDatabase.execSQL(sql);
     }

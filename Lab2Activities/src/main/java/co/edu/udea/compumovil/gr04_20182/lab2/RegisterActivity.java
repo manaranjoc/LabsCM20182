@@ -25,6 +25,8 @@ import gun0912.tedbottompicker.TedBottomPicker;
 
 public class RegisterActivity extends AppCompatActivity{
 
+    private String uriApp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity{
                                     @Override
                                     public void onImageSelected(Uri uri) {
                                         // here is selected uri
+                                        uriApp = uri.toString();
                                         ImageView imagePreview = findViewById(R.id.image_preview);
                                         imagePreview.setImageURI(uri);
 
@@ -86,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity{
                 values.put(UserContract.Column.NAME, name.getText().toString());
                 values.put(UserContract.Column.EMAIL, email.getText().toString());
                 values.put(UserContract.Column.PASSWORD, password.getText().toString());
+                values.put(UserContract.Column.IMAGE, uriApp);
                 boolean flag = false;
                 try {
                     db.insertWithOnConflict(UserContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
