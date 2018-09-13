@@ -33,7 +33,7 @@ public class ActivityLogin extends AppCompatActivity{
 
                 Cursor cursor = db.rawQuery(consultaSQL, null);
 
-                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                Intent intent = new Intent(ActivityLogin.this, PrincipalActivity.class);
                 boolean flag = true;
                 while (cursor.moveToNext()){
                     if(cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(email.getText().toString())){
