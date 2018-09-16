@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -93,8 +94,11 @@ public class PrincipalActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_dish_list) {
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            ft.replace(R.id.principal_fragment, new DishFragment());
+            ft.commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_profile) {
