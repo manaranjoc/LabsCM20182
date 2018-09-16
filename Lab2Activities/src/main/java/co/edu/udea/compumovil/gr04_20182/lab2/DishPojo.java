@@ -2,7 +2,9 @@ package co.edu.udea.compumovil.gr04_20182.lab2;
 
 import android.net.Uri;
 
-public class DishPojo {
+import java.io.Serializable;
+
+public class DishPojo implements Serializable{
 
     private String name;
     private String type;

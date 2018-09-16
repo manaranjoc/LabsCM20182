@@ -1,6 +1,7 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class DrinksFragment extends Fragment {
 
     private ArrayList<DrinkPojo> drinkList;
+    RecyclerView recyclerView;
 
     public DrinksFragment() {
         // Required empty public constructor
@@ -39,11 +41,25 @@ public class DrinksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.drinks_list);
+        recyclerView = view.findViewById(R.id.drinks_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         getAll();
         DrinkAdapter drinkAdapter = new DrinkAdapter(drinkList);
+
+        drinkAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), DrinkDetail.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("drink", drinkList.get(recyclerView.getChildAdapterPosition(view)));
+
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
         recyclerView.setAdapter(drinkAdapter);
     }
 

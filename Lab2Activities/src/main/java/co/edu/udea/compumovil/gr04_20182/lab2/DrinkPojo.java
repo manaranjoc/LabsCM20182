@@ -2,7 +2,9 @@ package co.edu.udea.compumovil.gr04_20182.lab2;
 
 import android.net.Uri;
 
-public class DrinkPojo {
+import java.io.Serializable;
+
+public class DrinkPojo implements Serializable{
 
     private String name;
     private String price;
