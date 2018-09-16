@@ -51,7 +51,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
     @NonNull
     @Override
     public DishViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_dish_item,null,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_dish_item,parent,false);
         return new DishViewHolder(view);
     }
 }

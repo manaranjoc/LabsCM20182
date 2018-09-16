@@ -1,6 +1,5 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -99,8 +98,11 @@ public class PrincipalActivity extends AppCompatActivity
 
             ft.replace(R.id.principal_fragment, new DishFragment());
             ft.commit();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_drink_list) {
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+            ft.replace(R.id.principal_fragment, new DrinksFragment());
+            ft.commit();
         } else if (id == R.id.nav_profile) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
