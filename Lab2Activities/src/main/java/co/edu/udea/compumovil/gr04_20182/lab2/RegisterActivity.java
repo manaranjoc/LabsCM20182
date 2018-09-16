@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity{
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText name = findViewById(R.id.name);
+                EditText name = findViewById(R.id.dish_name);
                 EditText email = findViewById(R.id.email);
                 EditText password = findViewById(R.id.password);
 
