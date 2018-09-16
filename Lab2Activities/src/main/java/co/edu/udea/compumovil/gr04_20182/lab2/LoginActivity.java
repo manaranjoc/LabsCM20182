@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ActivityLogin extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,8 +22,8 @@ public class ActivityLogin extends AppCompatActivity{
         SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
         boolean isUserLogged = sharedPreferences.getBoolean("Logged", false);
         if(isUserLogged){
-            Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
-            ActivityLogin.this.startActivity(intent);
+            Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
+            LoginActivity.this.startActivity(intent);
         }else {
             Button login = findViewById(R.id.login);
 
@@ -40,7 +40,7 @@ public class ActivityLogin extends AppCompatActivity{
 
                     Cursor cursor = db.rawQuery(consultaSQL, null);
 
-                    Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     boolean flag = true;
                     while (cursor.moveToNext()) {
                         if (cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(email.getText().toString())) {
@@ -52,7 +52,7 @@ public class ActivityLogin extends AppCompatActivity{
                                 editor.putString("email", email.getText().toString());
                                 editor.commit();
 
-                                ActivityLogin.this.startActivity(intent);
+                                LoginActivity.this.startActivity(intent);
                                 flag = false;
                             } else {
                                 break;
@@ -70,8 +70,8 @@ public class ActivityLogin extends AppCompatActivity{
             register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent registerIntent = new Intent(ActivityLogin.this, RegisterActivity.class);
-                    ActivityLogin.this.startActivity(registerIntent);
+                    Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    LoginActivity.this.startActivity(registerIntent);
                 }
             });
         }
