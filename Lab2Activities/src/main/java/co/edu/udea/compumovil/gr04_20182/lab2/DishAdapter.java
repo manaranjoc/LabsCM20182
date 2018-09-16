@@ -13,8 +13,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder> {
+public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder> implements View.OnClickListener{
     private ArrayList<DishPojo> dishList;
+    private View.OnClickListener listener;
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener=listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){
+            listener.onClick(view);
+        }
+    }
 
     public static class DishViewHolder extends RecyclerView.ViewHolder{
         public TextView name, type, price, time;
@@ -52,6 +64,9 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
     @Override
     public DishViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_dish_item,parent,false);
+
+        view.setOnClickListener(this);
+
         return new DishViewHolder(view);
     }
 }

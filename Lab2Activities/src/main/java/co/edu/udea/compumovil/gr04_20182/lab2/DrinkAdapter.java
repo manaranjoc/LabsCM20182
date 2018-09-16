@@ -10,8 +10,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder>{
+public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder> implements View.OnClickListener{
     private ArrayList<DrinkPojo> drinkList;
+    private View.OnClickListener listener;
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){
+            listener.onClick(view);
+        }
+    }
 
     public static class DrinkViewHolder extends RecyclerView.ViewHolder{
         public TextView name,price;
@@ -45,6 +57,9 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
     @Override
     public DrinkAdapter.DrinkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_drink_item, parent, false);
+
+        view.setOnClickListener(this);
+
         return new DrinkViewHolder(view);
     }
 }
