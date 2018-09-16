@@ -28,7 +28,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni.png");
+        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -36,7 +36,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni.png");
+        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -44,7 +44,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni.png");
+        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -52,7 +52,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni.png");
+        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -60,7 +60,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni.png");
+        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
     }

@@ -15,6 +15,7 @@
             android:id="@+id/dish_image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:scaleType="centerCrop"
             app:srcCompat="?attr/colorPrimary" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,28 +24,28 @@
 
             <TextView
                 android:id="@+id/dish_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="dishName" />
 
             <TextView
                 android:id="@+id/dish_type"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Type of dish" />
 
             <TextView
                 android:id="@+id/dish_price"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dish price" />
 
             <TextView
                 android:id="@+id/dish_time"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dish Time" />
