@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class PrincipalActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,5 +120,25 @@ public class PrincipalActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void sendDrink(DrinkPojo drinkPojo) {
+        DrinkDetailFragment drinkDetailFragment = new DrinkDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object",drinkPojo);
+        drinkDetailFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,drinkDetailFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void sendDish(DishPojo dishPojo) {
+        DishDetailFragment dishDetailFragment = new DishDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object", dishPojo);
+        dishDetailFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,dishDetailFragment).addToBackStack(null).commit();
     }
 }

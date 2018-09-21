@@ -1,6 +1,8 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,6 +29,9 @@ public class DishFragment extends Fragment {
     private ArrayList<DishPojo> dishList;
     RecyclerView recyclerView;
 
+    Activity activity;
+    CommunicationDetailsDishFragment communicationDetailsDishFragment;
+
     public DishFragment() {
         // Required empty public constructor
     }
@@ -52,13 +57,7 @@ public class DishFragment extends Fragment {
         dishAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), DishDetail.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("drink", dishList.get(recyclerView.getChildAdapterPosition(view)));
-
-                intent.putExtras(bundle);
-                startActivity(intent);
+                communicationDetailsDishFragment.sendDish(dishList.get(recyclerView.getChildAdapterPosition(view)));
             }
         });
 
@@ -78,14 +77,28 @@ public class DishFragment extends Fragment {
 
         while (cursor.moveToNext()){
             dish = new DishPojo();
+            dish.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
             dish.setName(cursor.getString(cursor.getColumnIndex(DishContract.Column.NAME)));
             dish.setType(cursor.getString(cursor.getColumnIndex(DishContract.Column.TYPE)));
             dish.setPrice(cursor.getString(cursor.getColumnIndex(DishContract.Column.PRICE)));
             dish.setTime(cursor.getString(cursor.getColumnIndex(DishContract.Column.TIME)));
             dish.setImageUri(cursor.getString(cursor.getColumnIndex(DishContract.Column.IMAGE)));
+            dish.setSchedule(cursor.getString(cursor.getColumnIndex(DishContract.Column.SCHEDULE)));
+            dish.setIngredients(cursor.getString(cursor.getColumnIndex(DishContract.Column.INGREDIENTS)));
+            dish.setFavorite(cursor.getInt(cursor.getColumnIndex(DishContract.Column.FAVORITE))>0);
 
             dishList.add(dish);
         }
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof Activity){
+            this.activity = (Activity) context;
+            communicationDetailsDishFragment = (CommunicationDetailsDishFragment) this.activity;
+        }
     }
 }

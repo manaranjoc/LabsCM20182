@@ -1,6 +1,8 @@
 package co.edu.udea.compumovil.gr04_20182.lab2;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +26,9 @@ public class DrinksFragment extends Fragment {
 
     private ArrayList<DrinkPojo> drinkList;
     RecyclerView recyclerView;
+
+    Activity activity;
+    CommunicationDetailsDrinkFragment interfaceComunication;
 
     public DrinksFragment() {
         // Required empty public constructor
@@ -50,13 +55,9 @@ public class DrinksFragment extends Fragment {
         drinkAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), DrinkDetail.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("drink", drinkList.get(recyclerView.getChildAdapterPosition(view)));
+                interfaceComunication.sendDrink(drinkList.get(recyclerView.getChildAdapterPosition(view)));
 
-                intent.putExtras(bundle);
-                startActivity(intent);
             }
         });
 
@@ -75,11 +76,24 @@ public class DrinksFragment extends Fragment {
 
         while (cursor.moveToNext()){
             drink = new DrinkPojo();
+            drink.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
             drink.setName(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.NAME)));
             drink.setPrice(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.PRICE)));
             drink.setImageUri(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.IMAGE)));
+            drink.setIngredients(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.INGREDIENTS)));
+            drink.setFavorite(cursor.getInt(cursor.getColumnIndex(DrinkContract.Column.FAVORITE))>0);
 
             drinkList.add(drink);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof Activity){
+            this.activity = (Activity) context;
+            interfaceComunication = (CommunicationDetailsDrinkFragment) this.activity;
         }
     }
 }

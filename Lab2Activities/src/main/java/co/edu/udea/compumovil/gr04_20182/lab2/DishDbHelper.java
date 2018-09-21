@@ -13,13 +13,16 @@ public class DishDbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT)",
+        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s BIT)",
                 DishContract.TABLE, DishContract.Column.ID,
                 DishContract.Column.NAME,
                 DishContract.Column.TYPE,
                 DishContract.Column.PRICE,
                 DishContract.Column.TIME,
-                DishContract.Column.IMAGE);
+                DishContract.Column.IMAGE,
+                DishContract.Column.SCHEDULE,
+                DishContract.Column.INGREDIENTS,
+                DishContract.Column.FAVORITE);
 
         sqLiteDatabase.execSQL(sql);
 
@@ -29,6 +32,9 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
         values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.SCHEDULE, "Morning");
+        values.put(DishContract.Column.INGREDIENTS, "Carne");
+        values.put(DishContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -37,6 +43,9 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
         values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.SCHEDULE, "Morning");
+        values.put(DishContract.Column.INGREDIENTS, "Carne");
+        values.put(DishContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -45,6 +54,9 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
         values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.SCHEDULE, "Morning");
+        values.put(DishContract.Column.INGREDIENTS, "Carne");
+        values.put(DishContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -53,6 +65,9 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
         values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.SCHEDULE, "Morning");
+        values.put(DishContract.Column.INGREDIENTS, "Carne");
+        values.put(DishContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -61,6 +76,9 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.PRICE, "30000");
         values.put(DishContract.Column.TIME, "30 min");
         values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.SCHEDULE, "Morning");
+        values.put(DishContract.Column.INGREDIENTS, "Carne");
+        values.put(DishContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
     }

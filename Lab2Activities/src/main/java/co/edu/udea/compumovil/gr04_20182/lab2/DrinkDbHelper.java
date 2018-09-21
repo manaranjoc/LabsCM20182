@@ -13,11 +13,13 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT,%s TEXT)",
+        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s BIT)",
                 DrinkContract.TABLE, DrinkContract.Column.ID,
                 DrinkContract.Column.NAME,
                 DrinkContract.Column.PRICE,
-                DrinkContract.Column.IMAGE);
+                DrinkContract.Column.IMAGE,
+                DrinkContract.Column.INGREDIENTS,
+                DrinkContract.Column.FAVORITE);
 
         sqLiteDatabase.execSQL(sql);
 
@@ -25,6 +27,8 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
         values.put(DrinkContract.Column.NAME, "Coke");
         values.put(DrinkContract.Column.PRICE, "4000");
         values.put(DrinkContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/coke");
+        values.put(DrinkContract.Column.INGREDIENTS, "4000");
+        values.put(DrinkContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DrinkContract.TABLE, null, values);
 
@@ -32,6 +36,8 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
         values.put(DrinkContract.Column.NAME, "Coke");
         values.put(DrinkContract.Column.PRICE, "4000");
         values.put(DrinkContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/coke");
+        values.put(DrinkContract.Column.INGREDIENTS, "4000");
+        values.put(DrinkContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DrinkContract.TABLE, null, values);
 
@@ -39,6 +45,8 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
         values.put(DrinkContract.Column.NAME, "Coke");
         values.put(DrinkContract.Column.PRICE, "4000");
         values.put(DrinkContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/coke");
+        values.put(DrinkContract.Column.INGREDIENTS, "4000");
+        values.put(DrinkContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DrinkContract.TABLE, null, values);
 
@@ -46,6 +54,8 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
         values.put(DrinkContract.Column.NAME, "Coke");
         values.put(DrinkContract.Column.PRICE, "4000");
         values.put(DrinkContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/coke");
+        values.put(DrinkContract.Column.INGREDIENTS, "4000");
+        values.put(DrinkContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DrinkContract.TABLE, null, values);
 
@@ -53,6 +63,8 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
         values.put(DrinkContract.Column.NAME, "Coke");
         values.put(DrinkContract.Column.PRICE, "4000");
         values.put(DrinkContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/coke");
+        values.put(DrinkContract.Column.INGREDIENTS, "4000");
+        values.put(DrinkContract.Column.FAVORITE, 0);
 
         sqLiteDatabase.insert(DrinkContract.TABLE, null, values);
     }

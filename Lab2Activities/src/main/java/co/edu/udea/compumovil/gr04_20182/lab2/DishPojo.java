@@ -11,16 +11,23 @@ public class DishPojo implements Serializable{
     private String price;
     private String time;
     private Uri imageUri;
+    private String schedule;
+    private String ingredients;
+    private boolean favorite;
+    private int id;
 
     public DishPojo() { }
 
-    public DishPojo(String name, String type, String price, String time, String imageDir) {
+    public DishPojo(int id, String name, String type, String price, String time, String imageDir, String schedule, String ingredients, Boolean favorite) {
         this.name = name;
         this.type = type;
         this.price = price;
         this.time = time;
         this.imageUri = Uri.parse(imageDir);
-
+        this.schedule = schedule;
+        this.ingredients = ingredients;
+        this.favorite = favorite;
+        this.id = id;
     }
 
     public String getName() {
@@ -61,5 +68,37 @@ public class DishPojo implements Serializable{
 
     public void setImageUri(String imageDir) {
         this.imageUri = Uri.parse(imageDir);
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
