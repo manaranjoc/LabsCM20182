@@ -12,10 +12,15 @@
         <EditTextPreference
             android:title="Password"
             android:key="password"/>
+        <Preference
+            android:title="Picture"
+            android:key="profile">
+
+        </Preference>
     </PreferenceCategory>
 
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:title="Save Login"
         android:key="save_login"
         android:defaultValue="true"

@@ -53,13 +53,18 @@ public class LoginActivity extends AppCompatActivity{
                         if (cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(email.getText().toString())) {
                             if (cursor.getString(cursor.getColumnIndex(UserContract.Column.PASSWORD)).equals(password.getText().toString())) {
                                 SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferencesS = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                SharedPreferences.Editor editorS = sharedPreferencesS.edit();
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                                 editor.putBoolean("Logged", true);
                                 editor.putString("email", email.getText().toString());
+                                editorS.putInt("id", cursor.getInt(cursor.getColumnIndex(UserContract.Column.ID)));
                                 editor.commit();
+                                editorS.commit();
 
                                 LoginActivity.this.startActivity(intent);
+
                                 flag = false;
                             } else {
                                 break;

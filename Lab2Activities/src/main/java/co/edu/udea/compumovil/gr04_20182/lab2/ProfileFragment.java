@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
                 try {
                     Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(UserContract.Column.IMAGE)));
                     imageView.setImageURI(imageUri);
-                }catch (IllegalArgumentException e){
+                }catch (Exception e){
                     e.printStackTrace();
                 }
                 break;

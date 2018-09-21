@@ -12,6 +12,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         this.startActivity(intent);
     }
 }
