@@ -32,7 +32,7 @@ public class DishDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dish_detail, container, false);
-        
+
         name = view.findViewById(R.id.dish_name);
         schedule = view.findViewById(R.id.dish_schedule);
         type = view.findViewById(R.id.dish_type);

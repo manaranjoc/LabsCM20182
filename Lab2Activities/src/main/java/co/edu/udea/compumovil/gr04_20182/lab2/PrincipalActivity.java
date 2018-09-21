@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -109,7 +111,10 @@ public class PrincipalActivity extends AppCompatActivity
             ft.replace(R.id.principal_fragment, new ProfileFragment());
             ft.commit();
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
+            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.principal_fragment, new SettingsFragment());
+            ft.commit();
 
         } else if (id == R.id.nav_share) {
 

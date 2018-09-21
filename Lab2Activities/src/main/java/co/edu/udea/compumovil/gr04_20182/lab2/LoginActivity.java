@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,9 +20,15 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //TODO: pasar a otro ambito de la actividad
+        PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
+        SharedPreferences sharedPreferencesS = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean saveLogin = sharedPreferencesS.getBoolean("save_login", true);
+
         SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
         boolean isUserLogged = sharedPreferences.getBoolean("Logged", false);
-        if(isUserLogged){
+        if(isUserLogged && saveLogin){
             Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
             LoginActivity.this.startActivity(intent);
         }else {
@@ -40,7 +47,7 @@ public class LoginActivity extends AppCompatActivity{
 
                     Cursor cursor = db.rawQuery(consultaSQL, null);
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
                     boolean flag = true;
                     while (cursor.moveToNext()) {
                         if (cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(email.getText().toString())) {
