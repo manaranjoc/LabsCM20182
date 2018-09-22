@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_dish_list"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="@string/dishes" />
         <item
             android:id="@+id/nav_drink_list"
@@ -14,7 +14,7 @@
             android:title="@string/drink" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_action_profile"
             android:title="@string/profile" />
         <item
             android:id="@+id/nav_settings"
@@ -22,11 +22,11 @@
             android:title="@string/configuration" />
         <item
             android:id="@+id/nav_close"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_menu_close"
             android:title="@string/close_session" />
         <item
-            android:id="@+id/nav_send"
-            android:icon="@drawable/ic_menu_send"
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_info"
             android:title="@string/about_us" />
     </group>
 

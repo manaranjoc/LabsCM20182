@@ -30,7 +30,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
 
     public static class DishViewHolder extends RecyclerView.ViewHolder{
         public TextView name, type, price, time;
-        public ImageView dishImage;
+        public ImageView dishImage, favorite;
 
         public DishViewHolder(View view){
             super(view);
@@ -39,6 +39,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
             price = view.findViewById(R.id.dish_price);
             time = view.findViewById(R.id.dish_time);
             dishImage = view.findViewById(R.id.dish_image);
+            favorite = view.findViewById(R.id.image_favorite);
         }
     }
 
@@ -53,6 +54,11 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         holder.price.setText(dishList.get(position).getPrice());
         holder.time.setText(dishList.get(position).getTime());
         holder.dishImage.setImageURI(dishList.get(position).getImageUri());
+        if(dishList.get(position).isFavorite()){
+            holder.favorite.setImageResource(R.drawable.ic_favorite_full);
+        }else{
+            holder.favorite.setImageResource(R.drawable.ic_favorite);
+        }
     }
 
     @Override

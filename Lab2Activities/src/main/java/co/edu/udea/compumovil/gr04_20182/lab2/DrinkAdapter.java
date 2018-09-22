@@ -27,13 +27,14 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
 
     public static class DrinkViewHolder extends RecyclerView.ViewHolder{
         public TextView name,price;
-        public ImageView drinkImage;
+        public ImageView drinkImage, favorite;
 
         public DrinkViewHolder(View view){
             super(view);
             name = view.findViewById(R.id.drink_name);
             price = view.findViewById(R.id.drink_price);
             drinkImage = view.findViewById(R.id.drink_image);
+            favorite = view.findViewById(R.id.image_favorite);
         }
     }
 
@@ -46,6 +47,11 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
         holder.name.setText(drinkList.get(position).getName());
         holder.price.setText(drinkList.get(position).getPrice());
         holder.drinkImage.setImageURI(drinkList.get(position).getImageUri());
+        if(drinkList.get(position).isFavorite()){
+            holder.favorite.setImageResource(R.drawable.ic_favorite_full);
+        }else{
+            holder.favorite.setImageResource(R.drawable.ic_favorite);
+        }
     }
 
     @Override

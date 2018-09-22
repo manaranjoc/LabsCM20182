@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment{
-
+    int fragment = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +66,28 @@ public class PrincipalActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(fragment == 1){
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if(findViewById(R.id.list_fragment)!=null){
+                ft.replace(R.id.list_fragment, new DishFragment(), "DISH");
+            }else {
+                ft.replace(R.id.principal_fragment, new DishFragment(), "DISH");
+            }
+            ft.commit();
+        }else if(fragment == 2){
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if(findViewById(R.id.list_fragment)!=null){
+                ft.replace(R.id.list_fragment, new DrinksFragment(), "DRINK");
+            }else {
+                ft.replace(R.id.principal_fragment, new DrinksFragment(), "DRINK");
+            }
+            ft.commit();
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -97,15 +119,21 @@ public class PrincipalActivity extends AppCompatActivity
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("object",searchDishList(newText));
                     dishFragment.setArguments(bundle);
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,dishFragment,"DISH").addToBackStack(null).commit();
+                    if(findViewById(R.id.list_fragment)!=null){
+                        getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, dishFragment, "DISH").addToBackStack(null).commit();
+                    }else {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, dishFragment, "DISH").addToBackStack(null).commit();
+                    }
                 }else if(getSupportFragmentManager().findFragmentByTag("DRINK") != null && getSupportFragmentManager().findFragmentByTag("DRINK").isVisible()){
                     DrinksFragment drinksFragment = new DrinksFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("object",searchDrinkList(newText));
                     drinksFragment.setArguments(bundle);
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,drinksFragment,"DRINK").addToBackStack(null).commit();
+                    if(findViewById(R.id.list_fragment)!=null){
+                        getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
+                    }else {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
+                    }
                 }
                 return false;
             }
@@ -124,7 +152,11 @@ public class PrincipalActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.principal_fragment, new SettingsFragment());
+            ft.commit();
+
+            fragment = 0;
         }else if(id == R.id.action_close){
             SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -148,24 +180,35 @@ public class PrincipalActivity extends AppCompatActivity
 
         if (id == R.id.nav_dish_list) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-            ft.replace(R.id.principal_fragment, new DishFragment(),"DISH");
+            if(findViewById(R.id.list_fragment)!=null){
+                ft.replace(R.id.list_fragment, new DishFragment(), "DISH");
+            }else {
+                ft.replace(R.id.principal_fragment, new DishFragment(), "DISH");
+            }
+            fragment = 1;
             ft.commit();
         } else if (id == R.id.nav_drink_list) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-            ft.replace(R.id.principal_fragment, new DrinksFragment(), "DRINK");
+            if(findViewById(R.id.list_fragment)!=null){
+                ft.replace(R.id.list_fragment, new DrinksFragment(), "DRINK");
+            }else {
+                ft.replace(R.id.principal_fragment, new DrinksFragment(), "DRINK");
+            }
+            fragment = 2;
             ft.commit();
         } else if (id == R.id.nav_profile) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
             ft.replace(R.id.principal_fragment, new ProfileFragment());
             ft.commit();
+            fragment = 0;
 
         } else if (id == R.id.nav_settings) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.principal_fragment, new SettingsFragment());
             ft.commit();
+
+            fragment = 0;
 
         } else if (id == R.id.nav_close) {
             SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
@@ -177,8 +220,8 @@ public class PrincipalActivity extends AppCompatActivity
 
             Intent closeIntent = new Intent(PrincipalActivity.this, LoginActivity.class);
             PrincipalActivity.this.startActivity(closeIntent);
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_about) {
+            fragment = 0;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -192,8 +235,11 @@ public class PrincipalActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putSerializable("object",drinkPojo);
         drinkDetailFragment.setArguments(bundle);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,drinkDetailFragment).addToBackStack(null).commit();
+        if(findViewById(R.id.list_fragment)!=null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, drinkDetailFragment).addToBackStack(null).commit();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, drinkDetailFragment).addToBackStack(null).commit();
+        }
     }
 
     @Override
@@ -202,8 +248,11 @@ public class PrincipalActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putSerializable("object", dishPojo);
         dishDetailFragment.setArguments(bundle);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,dishDetailFragment).addToBackStack(null).commit();
+        if(findViewById(R.id.list_fragment)!=null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, dishDetailFragment).addToBackStack(null).commit();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, dishDetailFragment).addToBackStack(null).commit();
+        }
     }
 
     public ArrayList<DishPojo> searchDishList(String newText){
@@ -277,5 +326,17 @@ public class PrincipalActivity extends AppCompatActivity
             drinkList.add(drink);
         }
         return drinkList;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("fragment",fragment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        fragment = savedInstanceState.getInt("fragment");
     }
 }
