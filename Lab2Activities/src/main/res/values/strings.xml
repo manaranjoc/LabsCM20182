@@ -15,7 +15,7 @@
     <string name="dish_disponibility">Dish availability schedule</string>
     <string name="dish_price">Dish Price</string>
     <string name="dish_ingredients">Dish Ingredients</string>
-    <string name="preview_update">Update preview</string>
+    <string name="preview_update">Save Another</string>
     <string name="dish_name">Dish Name</string>
     <string name="preparation_time_acronym">P.Time</string>
     <string name="type">Type</string>
@@ -50,5 +50,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="preference_file_key">co.edu.udea.compumovil.gr04_20182.lab1.PREFERENCE_FILE_KEY</string>
 
 </resources>

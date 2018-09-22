@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PrincipalActivity">
@@ -22,12 +23,32 @@
 
     <include layout="@layout/content_principal" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:fab_labelStyle="@style/etiqueta"
+        app:fab_addButtonColorNormal="@color/colorAccent"
+        app:fab_addButtonColorPressed="@color/colorPrimaryDark">
+        <com.getbase.floatingactionbutton.AddFloatingActionButton
+            android:id="@+id/fab_dish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@android:drawable/btn_plus"
+            app:fab_size="normal"
+            app:fab_colorNormal="#fd45ae"
+            app:fab_title="Add Dish"/>
+        <com.getbase.floatingactionbutton.AddFloatingActionButton
+            android:id="@+id/fab_drink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@android:drawable/btn_plus"
+            app:fab_size="normal"
+            app:fab_colorNormal="#ff5252"
+            app:fab_title="Add drink"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 
 </android.support.design.widget.CoordinatorLayout>
