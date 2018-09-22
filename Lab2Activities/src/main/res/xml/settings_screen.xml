@@ -20,7 +20,7 @@
     </PreferenceCategory>
 
 
-    <SwitchPreferenceCompat
+    <CheckBoxPreference
         android:title="Save Login"
         android:key="save_login"
         android:defaultValue="true"
