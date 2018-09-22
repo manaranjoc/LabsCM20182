@@ -49,7 +49,14 @@ public class DrinksFragment extends Fragment {
         recyclerView = view.findViewById(R.id.drinks_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getAll();
+        Bundle bundle = getArguments();
+
+        if(bundle!=null && bundle.containsKey("object")) {
+            drinkList = (ArrayList<DrinkPojo>) bundle.getSerializable("object");
+        }else{
+            getAll();
+        }
+
         DrinkAdapter drinkAdapter = new DrinkAdapter(drinkList);
 
         drinkAdapter.setOnClickListener(new View.OnClickListener() {

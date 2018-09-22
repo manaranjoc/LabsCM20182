@@ -3,19 +3,23 @@ package co.edu.udea.compumovil.gr04_20182.lab2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.util.ArrayList;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment{
@@ -60,6 +64,39 @@ public class PrincipalActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.principal, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.item_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(getSupportFragmentManager().findFragmentByTag("DISH") != null && getSupportFragmentManager().findFragmentByTag("DISH").isVisible()){
+
+                    DishFragment dishFragment = new DishFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("object",searchDishList(newText));
+                    dishFragment.setArguments(bundle);
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,dishFragment,"DISH").addToBackStack(null).commit();
+                }else if(getSupportFragmentManager().findFragmentByTag("DRINK") != null && getSupportFragmentManager().findFragmentByTag("DRINK").isVisible()){
+                    DrinksFragment drinksFragment = new DrinksFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("object",searchDrinkList(newText));
+                    drinksFragment.setArguments(bundle);
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,drinksFragment,"DRINK").addToBackStack(null).commit();
+                }
+                return false;
+            }
+
+
+        });
         return true;
     }
 
@@ -97,12 +134,12 @@ public class PrincipalActivity extends AppCompatActivity
         if (id == R.id.nav_dish_list) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-            ft.replace(R.id.principal_fragment, new DishFragment());
+            ft.replace(R.id.principal_fragment, new DishFragment(),"DISH");
             ft.commit();
         } else if (id == R.id.nav_drink_list) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-            ft.replace(R.id.principal_fragment, new DrinksFragment());
+            ft.replace(R.id.principal_fragment, new DrinksFragment(), "DRINK");
             ft.commit();
         } else if (id == R.id.nav_profile) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -115,8 +152,16 @@ public class PrincipalActivity extends AppCompatActivity
             ft.replace(R.id.principal_fragment, new SettingsFragment());
             ft.commit();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_close) {
+            SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
 
+            editor.putBoolean("Logged", false);
+            editor.putString("email", null);
+            editor.commit();
+
+            Intent closeIntent = new Intent(PrincipalActivity.this, LoginActivity.class);
+            PrincipalActivity.this.startActivity(closeIntent);
         } else if (id == R.id.nav_send) {
 
         }
@@ -144,5 +189,78 @@ public class PrincipalActivity extends AppCompatActivity
         dishDetailFragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment,dishDetailFragment).addToBackStack(null).commit();
+    }
+
+    public ArrayList<DishPojo> searchDishList(String newText){
+        ArrayList<DishPojo> dishList = getAllDish();
+        ArrayList<DishPojo> tempDish = new ArrayList<>();
+        for(DishPojo item: dishList){
+            if(item.getName().toLowerCase().contains(newText.toLowerCase())||item.getPrice().toLowerCase().contains(newText.toLowerCase())){
+                tempDish.add(item);
+            }
+        }
+        return tempDish;
+    }
+
+    public ArrayList<DrinkPojo> searchDrinkList(String newText){
+        ArrayList<DrinkPojo> drinkList = getAllDrink();
+        ArrayList<DrinkPojo> tempDrink = new ArrayList<>();
+        for(DrinkPojo item: drinkList){
+            if(item.getName().toLowerCase().contains(newText.toLowerCase())||item.getPrice().toLowerCase().contains(newText.toLowerCase())){
+                tempDrink.add(item);
+            }
+        }
+        return tempDrink;
+    }
+
+    public ArrayList<DishPojo> getAllDish(){
+        DishDbHelper dishDbHelper = new DishDbHelper(this);
+        SQLiteDatabase db = dishDbHelper.getReadableDatabase();
+        String consultaSQL = "select * from "+DishContract.TABLE;
+
+        Cursor cursor = db.rawQuery(consultaSQL, null);
+
+        ArrayList<DishPojo> dishList = new ArrayList<>();
+        DishPojo dish = null;
+
+        while (cursor.moveToNext()){
+            dish = new DishPojo();
+            dish.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
+            dish.setName(cursor.getString(cursor.getColumnIndex(DishContract.Column.NAME)));
+            dish.setType(cursor.getString(cursor.getColumnIndex(DishContract.Column.TYPE)));
+            dish.setPrice(cursor.getString(cursor.getColumnIndex(DishContract.Column.PRICE)));
+            dish.setTime(cursor.getString(cursor.getColumnIndex(DishContract.Column.TIME)));
+            dish.setImageUri(cursor.getString(cursor.getColumnIndex(DishContract.Column.IMAGE)));
+            dish.setSchedule(cursor.getString(cursor.getColumnIndex(DishContract.Column.SCHEDULE)));
+            dish.setIngredients(cursor.getString(cursor.getColumnIndex(DishContract.Column.INGREDIENTS)));
+            dish.setFavorite(cursor.getInt(cursor.getColumnIndex(DishContract.Column.FAVORITE))>0);
+
+            dishList.add(dish);
+        }
+        return dishList;
+    }
+
+    public ArrayList<DrinkPojo> getAllDrink(){
+        DrinkDbHelper drinkDbHelper = new DrinkDbHelper(this);
+        SQLiteDatabase db = drinkDbHelper.getReadableDatabase();
+        String consultaSQL = "select * from "+DrinkContract.TABLE;
+
+        Cursor cursor = db.rawQuery(consultaSQL, null);
+
+        ArrayList<DrinkPojo> drinkList = new ArrayList<>();
+        DrinkPojo drink = null;
+
+        while (cursor.moveToNext()){
+            drink = new DrinkPojo();
+            drink.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
+            drink.setName(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.NAME)));
+            drink.setPrice(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.PRICE)));
+            drink.setImageUri(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.IMAGE)));
+            drink.setIngredients(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.INGREDIENTS)));
+            drink.setFavorite(cursor.getInt(cursor.getColumnIndex(DrinkContract.Column.FAVORITE))>0);
+
+            drinkList.add(drink);
+        }
+        return drinkList;
     }
 }

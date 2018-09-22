@@ -51,7 +51,13 @@ public class DishFragment extends Fragment {
         recyclerView = view.findViewById(R.id.dish_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getAll();
+        Bundle bundle = getArguments();
+
+        if(bundle!=null && bundle.containsKey("object")){
+            dishList = (ArrayList<DishPojo>) bundle.getSerializable("object");
+        }else{
+            getAll();
+        }
         DishAdapter dishAdapter = new DishAdapter(dishList);
 
         dishAdapter.setOnClickListener(new View.OnClickListener() {

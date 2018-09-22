@@ -18,12 +18,12 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
-                                      <entry key="clipArt">
+                                      <entry key="clipartAsset">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="trimmed" value="true" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -57,7 +57,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\Garces Usma\Desktop\Nueva carpeta (4)\ic_launcher\res\mipmap-xxxhdpi\ic_launcher.png" />
-                                      <entry key="outputName" value="ic_account" />
+                                      <entry key="outputName" value="ic_action_search" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -83,6 +84,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="foregroundAssetType" value="CLIP_ART" />
                                       <entry key="foregroundImage" value="C:\Users\Garces Usma\Desktop\Nueva carpeta (4)\ic_launcher\web_hi_res_512.png" />
                                     </map>
                                   </option>
@@ -94,13 +96,17 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="IMAGE" />
                                       <entry key="imageAsset" value="C:\Users\Garces Usma\Desktop\Nueva carpeta (4)\ic_launcher\web_hi_res_512.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
