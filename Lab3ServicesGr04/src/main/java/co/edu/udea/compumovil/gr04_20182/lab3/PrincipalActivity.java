@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment{
     int fragment = 0;
+    private FloatingActionsMenu fabMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class PrincipalActivity extends AppCompatActivity
 
         FloatingActionButton fabDish = (FloatingActionButton) findViewById(R.id.fab_dish);
         FloatingActionButton fabDrink = (FloatingActionButton) findViewById(R.id.fab_drink);
-        final FloatingActionsMenu fabMenu = findViewById(R.id.fab);
+        fabMenu = findViewById(R.id.fab);
 
         fabDish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +151,9 @@ public class PrincipalActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //fabMenu.setEnabled(false);
+            fabMenu.setVisibility(View.GONE);
+
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.principal_fragment, new SettingsFragment());
             ft.commit();
@@ -177,6 +181,7 @@ public class PrincipalActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_dish_list) {
+            fabMenu.setVisibility(View.VISIBLE);
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             if(findViewById(R.id.list_fragment)!=null){
                 ft.replace(R.id.list_fragment, new DishFragment(), "DISH");
@@ -186,6 +191,7 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = 1;
             ft.commit();
         } else if (id == R.id.nav_drink_list) {
+            fabMenu.setVisibility(View.VISIBLE);
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             if(findViewById(R.id.list_fragment)!=null){
                 ft.replace(R.id.list_fragment, new DrinksFragment(), "DRINK");
@@ -195,6 +201,7 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = 2;
             ft.commit();
         } else if (id == R.id.nav_profile) {
+            fabMenu.setVisibility(View.GONE);
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
             ft.replace(R.id.principal_fragment, new ProfileFragment());
@@ -202,6 +209,7 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = 0;
 
         } else if (id == R.id.nav_settings) {
+            fabMenu.setVisibility(View.GONE);
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.principal_fragment, new SettingsFragment());
             ft.commit();
