@@ -31,13 +31,13 @@
     <string name="drinks">Drinks</string>
 
     <string name="app_name">Lab3ServicesGr04</string>
-    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_register">Register</string>
     <string name="register">Register</string>
-    <string name="title_activity_principal">PrincipalActivity</string>
+    <string name="title_activity_principal">Menu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Menu App</string>
+    <string name="nav_header_subtitle">Options</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
