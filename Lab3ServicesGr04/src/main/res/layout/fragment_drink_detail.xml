@@ -18,24 +18,24 @@
         android:id="@+id/detail_drink_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"/>
+        android:text="@string/name"/>
 
     <TextView
         android:id="@+id/detail_drink_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingredients"/>
+        android:text="@string/ingredients"/>
 
     <TextView
         android:id="@+id/detail_drink_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Price"/>
+        android:text="@string/price"/>
 
     <Button
         android:id="@+id/drink_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add to favorites" />
+        android:text="@string/add_to_favorites" />
 
 </LinearLayout>

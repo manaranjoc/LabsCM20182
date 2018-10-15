@@ -27,28 +27,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="dishName" />
+                android:text="@string/dishname" />
 
             <TextView
                 android:id="@+id/dish_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Type of dish" />
+                android:text="@string/type_of_dish" />
 
             <TextView
                 android:id="@+id/dish_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dish price" />
+                android:text="@string/dish_price" />
 
             <TextView
                 android:id="@+id/dish_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dish Time" />
+                android:text="@string/dish_time" />
         </LinearLayout>
 
         <ImageView
