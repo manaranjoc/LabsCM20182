@@ -1,0 +1,54 @@
+<resources>
+    <string name="Icon">Icon</string>
+    <string name="plate_name">Dish Name</string>
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="night">Night</string>
+    <string name="entrance">Entrance</string>
+    <string name="main_dish">Main Dish</string>
+    <string name="form">Form</string>
+    <string name="type_of_plate">Type of Dish</string>
+    <string name="image_of_meal">Dish Image</string>
+    <string name="price">Price</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="preparation_time">Preparation Time</string>
+    <string name="dish_disponibility">Dish availability schedule</string>
+    <string name="dish_price">Dish Price</string>
+    <string name="dish_ingredients">Dish Ingredients</string>
+    <string name="preview_update">Save Another</string>
+    <string name="dish_name">Dish Name</string>
+    <string name="preparation_time_acronym">P.Time</string>
+    <string name="type">Type</string>
+    <string name="schedule">Schedule</string>
+    <string name="dish_icon_description">icon of dish in the register</string>
+    <string name="meal">Meals</string>
+    <string name="drink">Drink Name</string>
+    <string name="drink_ingredients">Drink Ingredients</string>
+    <string name="drink_price">Drink Price</string>
+    <string name="drink_image">Drink Image</string>
+    <string name="clean">Clean</string>
+    <string name="exit">Exit</string>
+    <string name="drinks">Drinks</string>
+
+    <string name="app_name">Lab3ServicesGr04</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="register">Register</string>
+    <string name="title_activity_principal">PrincipalActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="profile">Profile</string>
+    <string name="dishes">Dishes</string>
+    <string name="configuration">Configuration</string>
+    <string name="close_session">Close session</string>
+    <string name="about_us">About us</string>
+
+
+    <string name="preference_file_key">co.edu.udea.compumovil.gr04_20182.lab1.PREFERENCE_FILE_KEY</string>
+
+</resources>

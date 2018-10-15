@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DishDetailFragment">
+
+    <ImageView
+        android:id="@+id/detail_dish_image"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/coke" />
+
+    <TextView
+        android:id="@+id/dish_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish Name" />
+
+    <TextView
+        android:id="@+id/dish_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish Schedule" />
+
+    <TextView
+        android:id="@+id/dish_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish Type" />
+
+    <TextView
+        android:id="@+id/dish_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish Time" />
+
+    <TextView
+        android:id="@+id/dish_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish Price" />
+
+    <TextView
+        android:id="@+id/dish_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish Ingredients" />
+
+    <Button
+        android:id="@+id/dish_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to Favorites" />
+
+</LinearLayout>
