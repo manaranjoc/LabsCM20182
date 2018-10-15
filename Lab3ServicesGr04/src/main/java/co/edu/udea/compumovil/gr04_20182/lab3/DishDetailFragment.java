@@ -3,6 +3,7 @@ package co.edu.udea.compumovil.gr04_20182.lab3;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class DishDetailFragment extends Fragment {
         time.setText(dishPojo.getTime());
         ingredients.setText(dishPojo.getIngredients());
         price.setText(dishPojo.getPrice());
-        detailImage.setImageURI(dishPojo.getImageUri());
+        detailImage.setImageURI(Uri.parse(dishPojo.getImageUri()));
 
         favorite = view.findViewById(R.id.dish_favorites);
 

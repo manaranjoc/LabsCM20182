@@ -9,7 +9,7 @@ public class DrinkPojo implements Serializable{
     private int id;
     private String name;
     private String price;
-    private Uri imageUri;
+    private String imageUri;
     private String ingredients;
     private boolean favorite;
 
@@ -19,7 +19,7 @@ public class DrinkPojo implements Serializable{
         this.id = id;
         this.name = name;
         this.price = price;
-        this.imageUri = Uri.parse(imageDir);
+        this.imageUri = imageDir;
         this.ingredients = ingredients;
         this.favorite = favorite;
     }
@@ -48,12 +48,12 @@ public class DrinkPojo implements Serializable{
         this.price = price;
     }
 
-    public Uri getImageUri() {
+    public String getImageUri() {
         return imageUri;
     }
 
     public void setImageUri(String imageDir) {
-        this.imageUri = Uri.parse(imageDir);
+        this.imageUri = imageDir;
     }
 
     public boolean isFavorite() {

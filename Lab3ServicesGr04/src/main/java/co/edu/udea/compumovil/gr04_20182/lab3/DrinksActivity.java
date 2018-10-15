@@ -264,7 +264,7 @@ public class DrinksActivity extends AppCompatActivity {
 
         values.put(DrinkContract.Column.NAME, drinkPojo.getName());
         values.put(DrinkContract.Column.PRICE, drinkPojo.getPrice());
-        values.put(DrinkContract.Column.IMAGE,drinkPojo.getImageUri().toString());
+        values.put(DrinkContract.Column.IMAGE,drinkPojo.getImageUri());
         values.put(DrinkContract.Column.INGREDIENTS, drinkPojo.getIngredients());
         values.put(DrinkContract.Column.FAVORITE, drinkPojo.isFavorite());
 

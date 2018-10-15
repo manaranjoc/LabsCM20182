@@ -367,7 +367,7 @@ public class DishActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
 
         values.put(DishContract.Column.NAME,dishPojo.getName());
-        values.put(DishContract.Column.IMAGE, dishPojo.getImageUri().toString());
+        values.put(DishContract.Column.IMAGE, dishPojo.getImageUri());
         values.put(DishContract.Column.TYPE,dishPojo.getType());
         values.put(DishContract.Column.PRICE,dishPojo.getPrice());
         values.put(DishContract.Column.TIME, dishPojo.getTime());

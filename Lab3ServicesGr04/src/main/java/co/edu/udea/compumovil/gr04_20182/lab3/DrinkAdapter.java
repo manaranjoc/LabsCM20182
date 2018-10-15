@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.gr04_20182.lab3;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
     public void onBindViewHolder(@NonNull DrinkAdapter.DrinkViewHolder holder, int position) {
         holder.name.setText(drinkList.get(position).getName());
         holder.price.setText(drinkList.get(position).getPrice());
-        holder.drinkImage.setImageURI(drinkList.get(position).getImageUri());
+        holder.drinkImage.setImageURI(Uri.parse(drinkList.get(position).getImageUri()));
         if(drinkList.get(position).isFavorite()){
             holder.favorite.setImageResource(R.drawable.ic_favorite_full);
         }else{

@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.gr04_20182.lab3;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         holder.type.setText(dishList.get(position).getType());
         holder.price.setText(dishList.get(position).getPrice());
         holder.time.setText(dishList.get(position).getTime());
-        holder.dishImage.setImageURI(dishList.get(position).getImageUri());
+        holder.dishImage.setImageURI(Uri.parse(dishList.get(position).getImageUri()));
         if(dishList.get(position).isFavorite()){
             holder.favorite.setImageResource(R.drawable.ic_favorite_full);
         }else{
