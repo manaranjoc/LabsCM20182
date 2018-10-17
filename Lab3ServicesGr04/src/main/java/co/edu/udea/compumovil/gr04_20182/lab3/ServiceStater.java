@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ public class ServiceStater extends BroadcastReceiver {
 
         Intent i = new Intent("co.edu.udea.compumovil.gr04_20182.lab3.ReceiverService");
         i.setClass(context, ReceiverService.class);
+        i.putExtra("interval", Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("interval","60")));
         context.startService(i);
+
     }
 }

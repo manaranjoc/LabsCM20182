@@ -33,7 +33,12 @@ public class ReceiverService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
+        httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
+        Log.d(TAG, interval+"");
+        interval = intent.getIntExtra("interval",60);
         doSomethingRepeatedly();
+        Log.d(TAG, interval+"");
+
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -48,7 +53,8 @@ public class ReceiverService extends Service {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-
+                httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
+                httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
                 Log.d("Service", "Running only running");
             }
         }, 0,interval*1000);

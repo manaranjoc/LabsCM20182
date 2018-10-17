@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -64,6 +66,9 @@ public class PrincipalActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = new Intent(this, ReceiverService.class);
+        intent.putExtra("interval", Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("interval", "60")));
+        Toast.makeText(this, PreferenceManager.getDefaultSharedPreferences(this).getString("interval", "60"), Toast.LENGTH_LONG).show();
+
         startService(intent);
     }
 

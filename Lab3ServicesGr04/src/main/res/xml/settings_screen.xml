@@ -22,6 +22,16 @@
         </Preference>
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="Update settings">
+        <ListPreference
+            android:title="Update Interval"
+            android:key="interval"
+            android:summary="Frequency of updates for the data"
+            android:entries="@array/time_array"
+            android:entryValues="@array/time_entries"
+            android:defaultValue="60"/>
+    </PreferenceCategory>
 
     <CheckBoxPreference
         android:title="@string/save_login"

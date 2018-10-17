@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.gr04_20182.lab3;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -105,6 +106,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             values.put(UserContract.Column.PASSWORD,sharedPreferences.getString("password", ""));
 
             db.updateWithOnConflict(UserContract.TABLE, values, criterio, null, SQLiteDatabase.CONFLICT_IGNORE);
+        }else if(s.equals("interval")){
+            Intent service = new Intent(getContext(), ReceiverService.class);
+            service.putExtra("interval", Integer.parseInt(sharedPreferences.getString("interval", "60")));
+            getContext().startService(service);
         }
     }
 }
