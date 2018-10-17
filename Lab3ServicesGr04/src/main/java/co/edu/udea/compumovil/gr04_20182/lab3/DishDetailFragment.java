@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +54,7 @@ public class DishDetailFragment extends Fragment {
         time.setText(dishPojo.getTime());
         ingredients.setText(dishPojo.getIngredients());
         price.setText(dishPojo.getPrice());
-        detailImage.setImageURI(Uri.parse(dishPojo.getImageUri()));
+        Picasso.get().load(dishPojo.getImageUri()).error(R.drawable.pizza_peperonni).into(detailImage);
 
         favorite = view.findViewById(R.id.dish_favorites);
 

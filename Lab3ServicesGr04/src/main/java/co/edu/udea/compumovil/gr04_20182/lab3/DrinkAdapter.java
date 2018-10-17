@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHolder> implements View.OnClickListener{
@@ -47,7 +49,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
     public void onBindViewHolder(@NonNull DrinkAdapter.DrinkViewHolder holder, int position) {
         holder.name.setText(drinkList.get(position).getName());
         holder.price.setText(drinkList.get(position).getPrice());
-        holder.drinkImage.setImageURI(Uri.parse(drinkList.get(position).getImageUri()));
+        Picasso.get().load(drinkList.get(position).getImageUri()).error(R.drawable.coke).into(holder.drinkImage);
         if(drinkList.get(position).isFavorite()){
             holder.favorite.setImageResource(R.drawable.ic_favorite_full);
         }else{

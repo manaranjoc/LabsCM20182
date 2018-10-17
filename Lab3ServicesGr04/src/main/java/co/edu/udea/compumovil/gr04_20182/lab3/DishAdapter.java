@@ -1,14 +1,21 @@
 package co.edu.udea.compumovil.gr04_20182.lab3;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder> implements View.OnClickListener{
@@ -51,7 +58,8 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         holder.type.setText(dishList.get(position).getType());
         holder.price.setText(dishList.get(position).getPrice());
         holder.time.setText(dishList.get(position).getTime());
-        holder.dishImage.setImageURI(Uri.parse(dishList.get(position).getImageUri()));
+        Picasso.get().load(dishList.get(position).getImageUri()).error(R.drawable.pizza_peperonni).into(holder.dishImage);
+
         if(dishList.get(position).isFavorite()){
             holder.favorite.setImageResource(R.drawable.ic_favorite_full);
         }else{

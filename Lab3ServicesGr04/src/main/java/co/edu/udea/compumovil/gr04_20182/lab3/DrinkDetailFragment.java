@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +49,7 @@ public class DrinkDetailFragment extends Fragment {
 
         name.setText(drinkPojo.getName());
         price.setText(drinkPojo.getPrice());
-        detailImage.setImageURI(Uri.parse(drinkPojo.getImageUri()));
+        Picasso.get().load(drinkPojo.getImageUri()).error(R.drawable.coke).into(detailImage);
 
 
         favorite = view.findViewById(R.id.drink_favorite);

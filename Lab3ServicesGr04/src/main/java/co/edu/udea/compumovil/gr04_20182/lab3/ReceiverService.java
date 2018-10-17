@@ -119,7 +119,7 @@ public class ReceiverService extends Service {
             values.put(DishContract.Column.SCHEDULE, schedule);
             String ingredients = "";
             for (String ingredient : dishPojo.getIngredients()) {
-                ingredients =ingredients+ingredient;
+                ingredients =ingredients+", "+ingredient;
             }
             values.put(DishContract.Column.INGREDIENTS, ingredients);
             //values.put(DishContract.Column.FAVORITE, false);
