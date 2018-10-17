@@ -3,6 +3,8 @@
     package="co.edu.udea.compumovil.gr04_20182.lab3">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -35,6 +37,12 @@
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity android:name=".DishActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <receiver android:name=".ServiceStater">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".ReceiverService"></service>
     </application>
 
 </manifest>
