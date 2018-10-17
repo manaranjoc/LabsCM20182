@@ -60,12 +60,12 @@
     <string name="drink_name">Nombre Bebida</string>
     <string name="search">Buscar</string>
     <string name="save_login">Guardar Login</string>
-    <string name="mantain_login">Mantener sesión iniciada</string>
+    <string name="maintain_login">Mantener sesión iniciada</string>
     <string name="auth_not">Autorizar Notificaciones</string>
     <string name="allow_not">Permitir la Presencia de notificaciones</string>
     <string name="aut_sound">Permitir Sonido</string>
     <string name="auth_sound">Permitir Sonido Notificaciones</string>
     <string name="update_settings">Configuraciónes de actualización</string>
     <string name="update_interval">Intervalo de Actualización</string>
-    <string name="frecuency_update">Frecuencia de actualización</string>
+    <string name="frequency_update">Frecuencia de actualización</string>
 </resources>

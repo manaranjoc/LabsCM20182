@@ -27,7 +27,7 @@
         <ListPreference
             android:title="@string/update_interval"
             android:key="interval"
-            android:summary="@string/frecuency_update"
+            android:summary="@string/frequency_update"
             android:entries="@array/time_array"
             android:entryValues="@array/time_entries"
             android:defaultValue="60"/>
@@ -37,7 +37,7 @@
         android:title="@string/save_login"
         android:key="save_login"
         android:defaultValue="true"
-        android:summary="@string/mantain_login"/>
+        android:summary="@string/maintain_login"/>
     <PreferenceCategory
         android:title="Notification">
         <CheckBoxPreference
