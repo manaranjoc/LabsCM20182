@@ -1,10 +1,13 @@
 package co.edu.udea.compumovil.gr04_20182.lab3;
 
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +22,7 @@ import com.google.gson.JsonParser;
 
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -90,10 +94,86 @@ public class ReceiverService extends Service {
         Gson gson = new Gson();
         if(memberName.equals("foods")){
             Food[] update = gson.fromJson(jsonArray, Food[].class);
+            createDishDatabase(update);
         }else{
             Drink[] update = gson.fromJson(jsonArray, Drink[].class);
+            createDrinkDatabase(update);
         }
 
 
+    }
+
+    private void createDishDatabase(Food[] dishList) {
+        DishDbHelper dishDbHelper = new DishDbHelper(this);
+        SQLiteDatabase db = dishDbHelper.getWritableDatabase();
+        for (Food dishPojo : dishList) {
+            ContentValues values = new ContentValues();
+
+            values.put(DishContract.Column.NAME, dishPojo.getName());
+            values.put(DishContract.Column.IMAGE, dishPojo.getImage());
+            values.put(DishContract.Column.TYPE, dishPojo.getType());
+            values.put(DishContract.Column.PRICE, dishPojo.getPrice());
+            values.put(DishContract.Column.TIME, dishPojo.getTime());
+
+            String schedule = mealScheduleUpdate(dishPojo.getSchedule());
+            values.put(DishContract.Column.SCHEDULE, schedule);
+            String ingredients = "";
+            for (String ingredient : dishPojo.getIngredients()) {
+                ingredients =ingredients+ingredient;
+            }
+            values.put(DishContract.Column.INGREDIENTS, ingredients);
+            //values.put(DishContract.Column.FAVORITE, false);
+
+            try {
+                db.insertWithOnConflict(DishContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
+            } catch (Exception e) {
+                Log.d(TAG, "Dish already exist in the database");
+            }
+        }
+        db.close();
+    }
+
+    public void createDrinkDatabase(Drink[] drinkList){
+        DrinkDbHelper drinkDbHelper = new DrinkDbHelper(this);
+        SQLiteDatabase db = drinkDbHelper.getWritableDatabase();
+
+        for(Drink drinkPojo: drinkList) {
+            ContentValues values = new ContentValues();
+
+            values.put(DrinkContract.Column.NAME, drinkPojo.getName());
+            values.put(DrinkContract.Column.PRICE, drinkPojo.getCurrency()+drinkPojo.getPrice());
+            values.put(DrinkContract.Column.IMAGE, drinkPojo.getImage());
+            //values.put(DrinkContract.Column.INGREDIENTS, drinkPojo.getIngredients());
+            //values.put(DrinkContract.Column.FAVORITE, drinkPojo.isFavorite());
+
+            try {
+                db.insertWithOnConflict(DrinkContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
+            } catch (Exception e) {
+                Log.d(TAG, "Drink already exist in the database");
+            }
+        }
+
+        db.close();
+    }
+
+    private String mealScheduleUpdate(List<Boolean> checkSchedule){
+
+        String schedule = "";
+
+        if (checkSchedule.get(0)){
+            schedule+=" Mor,";
+        }
+        if (checkSchedule.get(1)){
+            schedule+=" Aft,";
+        }
+        if (checkSchedule.get(2)){
+            schedule+=" Nig";
+        }
+
+        if(schedule.endsWith(",")){
+            schedule = schedule.substring(0,schedule.length()-1);
+        }
+
+        return schedule;
     }
 }
