@@ -74,5 +74,8 @@
     <string name="allow_not">allow the presence of notifications</string>
     <string name="aut_sound">Authorize Sound</string>
     <string name="auth_sound">allow the sound of notifications</string>
+    <string name="update_settings">Update settings</string>
+    <string name="update_interval">Update Interval</string>
+    <string name="frecuency_update">Frequency of updates for the data</string>
 
 </resources>

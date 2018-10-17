@@ -65,4 +65,7 @@
     <string name="allow_not">Permitir la Presencia de notificaciones</string>
     <string name="aut_sound">Permitir Sonido</string>
     <string name="auth_sound">Permitir Sonido Notificaciones</string>
+    <string name="update_settings">Configuraciónes de actualización</string>
+    <string name="update_interval">Intervalo de Actualización</string>
+    <string name="frecuency_update">Frecuencia de actualización</string>
 </resources>

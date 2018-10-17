@@ -23,11 +23,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Update settings">
+        android:title="@string/update_settings">
         <ListPreference
-            android:title="Update Interval"
+            android:title="@string/update_interval"
             android:key="interval"
-            android:summary="Frequency of updates for the data"
+            android:summary="@string/frecuency_update"
             android:entries="@array/time_array"
             android:entryValues="@array/time_entries"
             android:defaultValue="60"/>
