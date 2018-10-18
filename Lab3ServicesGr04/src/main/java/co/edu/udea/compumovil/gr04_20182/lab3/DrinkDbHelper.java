@@ -13,7 +13,7 @@ public class DrinkDbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s BIT)",
+        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT UNIQUE,%s TEXT,%s TEXT,%s TEXT,%s BIT)",
                 DrinkContract.TABLE, DrinkContract.Column.ID,
                 DrinkContract.Column.NAME,
                 DrinkContract.Column.PRICE,

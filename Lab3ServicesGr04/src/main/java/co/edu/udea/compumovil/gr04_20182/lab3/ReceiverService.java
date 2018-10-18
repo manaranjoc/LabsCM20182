@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -39,12 +40,14 @@ public class ReceiverService extends Service {
         httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
         httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
         Log.d(TAG, interval+"");
-        interval = intent.getIntExtra("interval",60);
-        doSomethingRepeatedly();
-        Log.d(TAG, interval+"");
-
-
-        return super.onStartCommand(intent, flags, startId);
+        if(intent != null) {
+            interval = intent.getIntExtra("interval", 60);
+            doSomethingRepeatedly();
+        }else {
+            interval = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("interval", "60"));
+        }
+        Log.d(TAG, interval + "");
+        return START_STICKY;
     }
 
     @Nullable
@@ -112,8 +115,8 @@ public class ReceiverService extends Service {
             values.put(DishContract.Column.NAME, dishPojo.getName());
             values.put(DishContract.Column.IMAGE, dishPojo.getImage());
             values.put(DishContract.Column.TYPE, dishPojo.getType());
-            values.put(DishContract.Column.PRICE, dishPojo.getPrice());
-            values.put(DishContract.Column.TIME, dishPojo.getTime());
+            values.put(DishContract.Column.PRICE, dishPojo.getCurrency()+dishPojo.getPrice());
+            values.put(DishContract.Column.TIME, dishPojo.getTime()+"min");
 
             String schedule = mealScheduleUpdate(dishPojo.getSchedule());
             values.put(DishContract.Column.SCHEDULE, schedule);
