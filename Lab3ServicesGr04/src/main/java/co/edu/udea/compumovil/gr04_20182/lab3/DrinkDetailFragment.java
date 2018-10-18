@@ -49,7 +49,7 @@ public class DrinkDetailFragment extends Fragment {
 
         name.setText(drinkPojo.getName());
         price.setText(drinkPojo.getPrice());
-        Picasso.get().load(drinkPojo.getImageUri()).error(R.drawable.coke).into(detailImage);
+        Picasso.get().load(drinkPojo.getImageUri()).placeholder(R.drawable.coke).error(R.drawable.coke).into(detailImage);
 
 
         favorite = view.findViewById(R.id.drink_favorite);

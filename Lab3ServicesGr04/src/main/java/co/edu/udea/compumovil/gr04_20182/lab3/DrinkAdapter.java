@@ -49,7 +49,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
     public void onBindViewHolder(@NonNull DrinkAdapter.DrinkViewHolder holder, int position) {
         holder.name.setText(drinkList.get(position).getName());
         holder.price.setText(drinkList.get(position).getPrice());
-        Picasso.get().load(drinkList.get(position).getImageUri()).error(R.drawable.coke).into(holder.drinkImage);
+        Picasso.get().load(drinkList.get(position).getImageUri()).placeholder(R.drawable.coke).error(R.drawable.coke).into(holder.drinkImage);
         if(drinkList.get(position).isFavorite()){
             holder.favorite.setImageResource(R.drawable.ic_favorite_full);
         }else{

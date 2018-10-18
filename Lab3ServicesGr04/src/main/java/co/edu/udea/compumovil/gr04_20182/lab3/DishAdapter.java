@@ -58,7 +58,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         holder.type.setText(dishList.get(position).getType());
         holder.price.setText(dishList.get(position).getPrice());
         holder.time.setText(dishList.get(position).getTime());
-        Picasso.get().load(dishList.get(position).getImageUri()).error(R.drawable.pizza_peperonni).into(holder.dishImage);
+        Picasso.get().load(dishList.get(position).getImageUri()).placeholder(R.drawable.pizza_peperonni).error(R.drawable.pizza_peperonni).into(holder.dishImage);
 
         if(dishList.get(position).isFavorite()){
             holder.favorite.setImageResource(R.drawable.ic_favorite_full);

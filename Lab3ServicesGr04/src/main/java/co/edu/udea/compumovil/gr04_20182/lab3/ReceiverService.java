@@ -31,14 +31,16 @@ public class ReceiverService extends Service {
 
     private Timer timer = new Timer();
     private int interval = 60;
+    public static final String UPDATE_ACTION_DISH = "co.edu.udea.compumovil.gr04_20182.lab3.updatedish";
+    public static final String UPDATE_ACTION_DRINK = "co.edu.udea.compumovil.gr04_20182.lab3.updatedrink";
 
     private String TAG = "Receiver Service Http";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
-        httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
+        //httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
+        //httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
         Log.d(TAG, interval+"");
         if(intent != null) {
             interval = intent.getIntExtra("interval", 60);
@@ -83,6 +85,10 @@ public class ReceiverService extends Service {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error: "+error.toString());
+                        Intent intent = new Intent(UPDATE_ACTION_DISH);
+                        sendBroadcast(intent);
+                        Intent intent2 = new Intent(UPDATE_ACTION_DRINK);
+                        sendBroadcast(intent2);
                     }
                 }
         );
@@ -134,6 +140,8 @@ public class ReceiverService extends Service {
             }
         }
         db.close();
+        Intent intent = new Intent(UPDATE_ACTION_DISH);
+        sendBroadcast(intent);
     }
 
     public void createDrinkDatabase(Drink[] drinkList){
@@ -157,6 +165,8 @@ public class ReceiverService extends Service {
         }
 
         db.close();
+        Intent intent = new Intent(UPDATE_ACTION_DRINK);
+        sendBroadcast(intent);
     }
 
     private String mealScheduleUpdate(List<Boolean> checkSchedule){

@@ -2,13 +2,18 @@ package co.edu.udea.compumovil.gr04_20182.lab3;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,13 +26,23 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DishFragment extends Fragment {
+public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private ArrayList<DishPojo> dishList;
     RecyclerView recyclerView;
 
+    DishAdapter dishAdapter;
+
     Activity activity;
     CommunicationDetailsDishFragment communicationDetailsDishFragment;
+
+    private BroadcastReceiver broadcastService = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateView();
+        }
+    };
 
     public DishFragment() {
         // Required empty public constructor
@@ -48,6 +63,22 @@ public class DishFragment extends Fragment {
         recyclerView = view.findViewById(R.id.dish_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_dish_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(android.R.color.holo_green_dark),
+                getResources().getColor(android.R.color.holo_orange_dark),
+                getResources().getColor(android.R.color.holo_blue_dark));
+
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                //mSwipeRefreshLayout.setRefreshing(true);
+
+                //loadRecyclerViewData();
+            }
+        });
+
         Bundle bundle = getArguments();
 
         if(bundle!=null && bundle.containsKey("object")){
@@ -55,7 +86,7 @@ public class DishFragment extends Fragment {
         }else{
             getAll();
         }
-        DishAdapter dishAdapter = new DishAdapter(dishList);
+        dishAdapter = new DishAdapter(dishList);
 
         dishAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,5 +134,38 @@ public class DishFragment extends Fragment {
             this.activity = (Activity) context;
             communicationDetailsDishFragment = (CommunicationDetailsDishFragment) this.activity;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        loadRecyclerViewData();
+    }
+
+    private void loadRecyclerViewData(){
+        mSwipeRefreshLayout.setRefreshing(true);
+
+        getContext().registerReceiver(broadcastService, new IntentFilter(ReceiverService.UPDATE_ACTION_DISH));
+        Intent intent = new Intent(getActivity(), ReceiverService.class);
+        intent.putExtra("interval", Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("interval","60")));
+        getActivity().startService(intent);
+    }
+
+    private void updateView(){
+        getAll();
+
+        dishAdapter = new DishAdapter(dishList);
+
+        dishAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                communicationDetailsDishFragment.sendDish(dishList.get(recyclerView.getChildAdapterPosition(view)));
+            }
+        });
+
+        recyclerView.setAdapter(dishAdapter);
+
+        getContext().unregisterReceiver(broadcastService);
+
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

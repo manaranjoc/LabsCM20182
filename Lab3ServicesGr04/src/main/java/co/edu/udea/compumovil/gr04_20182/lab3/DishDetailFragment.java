@@ -54,7 +54,7 @@ public class DishDetailFragment extends Fragment {
         time.setText(dishPojo.getTime());
         ingredients.setText(dishPojo.getIngredients());
         price.setText(dishPojo.getPrice());
-        Picasso.get().load(dishPojo.getImageUri()).error(R.drawable.pizza_peperonni).into(detailImage);
+        Picasso.get().load(dishPojo.getImageUri()).placeholder(R.drawable.pizza_peperonni).error(R.drawable.pizza_peperonni).into(detailImage);
 
         favorite = view.findViewById(R.id.dish_favorites);
 
