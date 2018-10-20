@@ -98,7 +98,9 @@ public class RegisterActivity extends AppCompatActivity{
                 }
                 if(flag){
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     RegisterActivity.this.startActivity(intent);
+                    RegisterActivity.this.finish();
                 }
 
 
