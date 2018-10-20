@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment{
     int fragment = 0;
+    int fragmetBack = 0;
     private FloatingActionsMenu fabMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,21 +127,31 @@ public class PrincipalActivity extends AppCompatActivity
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("object",searchDishList(newText));
                     dishFragment.setArguments(bundle);
+                    if(fragmetBack>0){
+                        getSupportFragmentManager().popBackStack();
+                        fragmetBack--;
+                    }
                     if(findViewById(R.id.list_fragment)!=null){
                         getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, dishFragment, "DISH").addToBackStack(null).commit();
                     }else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, dishFragment, "DISH").addToBackStack(null).commit();
                     }
+                    fragmetBack++;
                 }else if(getSupportFragmentManager().findFragmentByTag("DRINK") != null && getSupportFragmentManager().findFragmentByTag("DRINK").isVisible()){
                     DrinksFragment drinksFragment = new DrinksFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("object",searchDrinkList(newText));
                     drinksFragment.setArguments(bundle);
+                    if(fragmetBack>0){
+                        getSupportFragmentManager().popBackStack();
+                        fragmetBack--;
+                    }
                     if(findViewById(R.id.list_fragment)!=null){
                         getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
                     }else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
                     }
+                    fragmetBack++;
                 }
                 return false;
             }
