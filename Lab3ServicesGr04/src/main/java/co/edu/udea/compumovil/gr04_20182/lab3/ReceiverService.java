@@ -41,14 +41,14 @@ public class ReceiverService extends Service {
 
         //httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
         //httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
-        Log.d(TAG, interval+"");
+        Log.d(TAG, "Previous Interval ="+interval);
         if(intent != null) {
             interval = intent.getIntExtra("interval", 60);
             doSomethingRepeatedly();
         }else {
             interval = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("interval", "60"));
         }
-        Log.d(TAG, interval + "");
+        Log.d(TAG, "Actual Interval ="+interval);
         return START_STICKY;
     }
 
@@ -64,7 +64,7 @@ public class ReceiverService extends Service {
             public void run() {
                 httpGet("http://www.mocky.io/v2/5bb69bd22e00007b00683715", "foods");
                 httpGet("http://www.mocky.io/v2/5bb69ce32e00004d00683718", "drinks");
-                Log.d("Service", "Running only running");
+                Log.d("Service", "Updating dish and drink items");
             }
         }, 0,interval*1000);
     }
