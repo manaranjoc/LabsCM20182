@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
  */
 public class DrinkDetailFragment extends Fragment {
 
-    TextView name, ingredients, price;
+    TextView name, ingredients, price, detail;
     ImageView detailImage;
     Button favorite;
 
@@ -39,6 +39,7 @@ public class DrinkDetailFragment extends Fragment {
         name = view.findViewById(R.id.detail_drink_name);
         ingredients = view.findViewById(R.id.detail_drink_ingredients);
         price = view.findViewById(R.id.detail_drink_price);
+        detail = view.findViewById(R.id.drink_detail);
 
         detailImage = view.findViewById(R.id.detail_drink_image);
 
@@ -49,6 +50,7 @@ public class DrinkDetailFragment extends Fragment {
 
         name.setText(drinkPojo.getName());
         price.setText(drinkPojo.getPrice());
+        detail.setText(drinkPojo.getDescription());
         Picasso.get().load(drinkPojo.getImageUri()).placeholder(R.drawable.coke).error(R.drawable.coke).into(detailImage);
 
 

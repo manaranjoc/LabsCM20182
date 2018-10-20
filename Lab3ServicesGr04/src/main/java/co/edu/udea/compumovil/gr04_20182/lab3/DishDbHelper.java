@@ -13,7 +13,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT UNIQUE,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s BIT)",
+        String sql = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT UNIQUE,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT,%s BIT,%s TEXT)",
                 DishContract.TABLE, DishContract.Column.ID,
                 DishContract.Column.NAME,
                 DishContract.Column.TYPE,
@@ -22,7 +22,8 @@ public class DishDbHelper extends SQLiteOpenHelper{
                 DishContract.Column.IMAGE,
                 DishContract.Column.SCHEDULE,
                 DishContract.Column.INGREDIENTS,
-                DishContract.Column.FAVORITE);
+                DishContract.Column.FAVORITE,
+                DishContract.Column.DESCRIPTION);
 
         sqLiteDatabase.execSQL(sql);
 
@@ -35,6 +36,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.SCHEDULE, "Morning");
         values.put(DishContract.Column.INGREDIENTS, "Only Cheese");
         values.put(DishContract.Column.FAVORITE, 0);
+        values.put(DishContract.Column.DESCRIPTION, "Heavy Smell");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -46,6 +48,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.SCHEDULE, "Morning");
         values.put(DishContract.Column.INGREDIENTS, "Carne");
         values.put(DishContract.Column.FAVORITE, 0);
+        values.put(DishContract.Column.DESCRIPTION, "Sweet Meat");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -57,6 +60,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.SCHEDULE, "Afternoon, Noon");
         values.put(DishContract.Column.INGREDIENTS, "Chocolate");
         values.put(DishContract.Column.FAVORITE, 0);
+        values.put(DishContract.Column.DESCRIPTION, "Sweet Dream");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -68,6 +72,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.SCHEDULE, "Morning");
         values.put(DishContract.Column.INGREDIENTS, "Cherry, Pineapple");
         values.put(DishContract.Column.FAVORITE, 0);
+        values.put(DishContract.Column.DESCRIPTION, "Tropical Taste");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
 
@@ -79,6 +84,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.SCHEDULE, "Afternoon");
         values.put(DishContract.Column.INGREDIENTS, "Cheese, Bread");
         values.put(DishContract.Column.FAVORITE, 0);
+        values.put(DishContract.Column.DESCRIPTION, "Very elastic");
 
         sqLiteDatabase.insert(DishContract.TABLE, null, values);
     }

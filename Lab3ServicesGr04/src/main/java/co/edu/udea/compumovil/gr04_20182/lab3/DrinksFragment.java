@@ -116,6 +116,7 @@ public class DrinksFragment extends Fragment implements SwipeRefreshLayout.OnRef
             drink.setImageUri(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.IMAGE)));
             drink.setIngredients(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.INGREDIENTS)));
             drink.setFavorite(cursor.getInt(cursor.getColumnIndex(DrinkContract.Column.FAVORITE))>0);
+            drink.setDescription(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.DESCRIPTION)));
 
             drinkList.add(drink);
         }

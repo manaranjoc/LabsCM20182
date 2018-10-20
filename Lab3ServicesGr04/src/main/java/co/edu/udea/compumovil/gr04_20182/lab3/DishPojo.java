@@ -15,10 +15,11 @@ public class DishPojo implements Serializable{
     private String ingredients;
     private boolean favorite;
     private int id;
+    private String description;
 
     public DishPojo() { }
 
-    public DishPojo(int id, String name, String type, String price, String time, String imageDir, String schedule, String ingredients, Boolean favorite) {
+    public DishPojo(int id, String name, String type, String price, String time, String imageDir, String schedule, String ingredients, Boolean favorite, String description) {
         this.name = name;
         this.type = type;
         this.price = price;
@@ -28,6 +29,7 @@ public class DishPojo implements Serializable{
         this.ingredients = ingredients;
         this.favorite = favorite;
         this.id = id;
+        this.description = description;
     }
 
     public String getName() {
@@ -100,5 +102,13 @@ public class DishPojo implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -120,6 +120,7 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             dish.setSchedule(cursor.getString(cursor.getColumnIndex(DishContract.Column.SCHEDULE)));
             dish.setIngredients(cursor.getString(cursor.getColumnIndex(DishContract.Column.INGREDIENTS)));
             dish.setFavorite(cursor.getInt(cursor.getColumnIndex(DishContract.Column.FAVORITE))>0);
+            dish.setDescription(cursor.getString(cursor.getColumnIndex(DishContract.Column.DESCRIPTION)));
 
             dishList.add(dish);
         }

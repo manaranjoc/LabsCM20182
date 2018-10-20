@@ -81,4 +81,5 @@
     <string name="about_us_description">This is an App designed by movi industries with the objective of giving the user access to Dominos menu and include new items that weren´t added by the Developers</string>
 
     <string name="user">User</string>
+    <string name="description">Description</string>
 </resources>

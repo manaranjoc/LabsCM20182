@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
  */
 public class DishDetailFragment extends Fragment {
 
-    TextView name, schedule, type, time, ingredients, price;
+    TextView name, schedule, type, time, ingredients, price, detail;
     ImageView detailImage;
     Button favorite;
 
@@ -42,6 +42,7 @@ public class DishDetailFragment extends Fragment {
         time = view.findViewById(R.id.dish_time);
         ingredients = view.findViewById(R.id.dish_ingredients);
         price = view.findViewById(R.id.dish_price);
+        detail = view.findViewById(R.id.dish_detail);
 
         detailImage = view.findViewById(R.id.detail_dish_image);
 
@@ -54,6 +55,7 @@ public class DishDetailFragment extends Fragment {
         time.setText(dishPojo.getTime());
         ingredients.setText(dishPojo.getIngredients());
         price.setText(dishPojo.getPrice());
+        detail.setText(dishPojo.getDescription());
         Picasso.get().load(dishPojo.getImageUri()).placeholder(R.drawable.pizza_peperonni).error(R.drawable.pizza_peperonni).into(detailImage);
 
         favorite = view.findViewById(R.id.dish_favorites);

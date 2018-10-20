@@ -131,6 +131,7 @@ public class ReceiverService extends Service {
                 ingredients =ingredients+", "+ingredient;
             }
             values.put(DishContract.Column.INGREDIENTS, ingredients);
+            values.put(DishContract.Column.DESCRIPTION, dishPojo.getDescription());
             //values.put(DishContract.Column.FAVORITE, false);
 
             try {
@@ -154,6 +155,7 @@ public class ReceiverService extends Service {
             values.put(DrinkContract.Column.NAME, drinkPojo.getName());
             values.put(DrinkContract.Column.PRICE, drinkPojo.getCurrency()+drinkPojo.getPrice());
             values.put(DrinkContract.Column.IMAGE, drinkPojo.getImage());
+            values.put(DrinkContract.Column.DESCRIPTION, drinkPojo.getDescription());
             //values.put(DrinkContract.Column.INGREDIENTS, drinkPojo.getIngredients());
             //values.put(DrinkContract.Column.FAVORITE, drinkPojo.isFavorite());
 

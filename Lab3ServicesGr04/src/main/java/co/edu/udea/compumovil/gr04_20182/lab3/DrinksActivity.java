@@ -115,6 +115,7 @@ public class DrinksActivity extends AppCompatActivity {
         drinkPojo.setPrice(priceMeal.getText().toString());
         TextView ingredients = findViewById(R.id.ingredients);
         drinkPojo.setIngredients(ingredientsMeal.getText().toString());
+        drinkPojo.setDescription("Function not available for user created drinks");
         name.setText(nameMeal.getText());
         price.setText(priceMeal.getText());
         ingredients.setText(ingredientsMeal.getText());
@@ -267,6 +268,7 @@ public class DrinksActivity extends AppCompatActivity {
         values.put(DrinkContract.Column.IMAGE,drinkPojo.getImageUri());
         values.put(DrinkContract.Column.INGREDIENTS, drinkPojo.getIngredients());
         values.put(DrinkContract.Column.FAVORITE, drinkPojo.isFavorite());
+        values.put(DrinkContract.Column.DESCRIPTION, drinkPojo.getDescription());
 
         try {
             db.insertWithOnConflict(DrinkContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);

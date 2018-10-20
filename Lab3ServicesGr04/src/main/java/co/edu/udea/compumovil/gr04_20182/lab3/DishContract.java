@@ -19,6 +19,7 @@ public class DishContract {
         public static final String SCHEDULE = "schedule";
         public static final String INGREDIENTS = "ingredients";
         public static final String FAVORITE = "favorite";
+        public static final String DESCRIPTION = "description";
     }
 
 }

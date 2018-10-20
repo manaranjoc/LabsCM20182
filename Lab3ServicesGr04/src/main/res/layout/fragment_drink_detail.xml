@@ -53,6 +53,19 @@
         android:layout_height="wrap_content"
         android:text="@string/price"/>
 
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <TextView
+        android:id="@+id/drink_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/description" />
+
     <Button
         android:id="@+id/drink_favorite"
         android:layout_width="match_parent"

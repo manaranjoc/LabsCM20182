@@ -16,5 +16,6 @@ public class DrinkContract {
         public static final String IMAGE = "image";
         public static final String INGREDIENTS = "ingredients";
         public static final String FAVORITE = "favorite";
+        public static final String DESCRIPTION = "description";
     }
 }

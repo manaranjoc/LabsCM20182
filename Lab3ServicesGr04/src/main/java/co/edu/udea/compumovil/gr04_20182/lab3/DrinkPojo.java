@@ -12,16 +12,18 @@ public class DrinkPojo implements Serializable{
     private String imageUri;
     private String ingredients;
     private boolean favorite;
+    private String description;
 
     public DrinkPojo() { }
 
-    public DrinkPojo(int id, String name, String price, String imageDir, String ingredients, Boolean favorite) {
+    public DrinkPojo(int id, String name, String price, String imageDir, String ingredients, Boolean favorite, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUri = imageDir;
         this.ingredients = ingredients;
         this.favorite = favorite;
+        this.description = description;
     }
 
     public String getIngredients() {
@@ -70,5 +72,13 @@ public class DrinkPojo implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

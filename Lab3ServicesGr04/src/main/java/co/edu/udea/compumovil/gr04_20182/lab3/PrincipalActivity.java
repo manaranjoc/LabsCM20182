@@ -330,6 +330,7 @@ public class PrincipalActivity extends AppCompatActivity
             dish.setSchedule(cursor.getString(cursor.getColumnIndex(DishContract.Column.SCHEDULE)));
             dish.setIngredients(cursor.getString(cursor.getColumnIndex(DishContract.Column.INGREDIENTS)));
             dish.setFavorite(cursor.getInt(cursor.getColumnIndex(DishContract.Column.FAVORITE))>0);
+            dish.setDescription(cursor.getString(cursor.getColumnIndex(DishContract.Column.DESCRIPTION)));
 
             dishList.add(dish);
         }
@@ -354,6 +355,7 @@ public class PrincipalActivity extends AppCompatActivity
             drink.setImageUri(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.IMAGE)));
             drink.setIngredients(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.INGREDIENTS)));
             drink.setFavorite(cursor.getInt(cursor.getColumnIndex(DrinkContract.Column.FAVORITE))>0);
+            drink.setDescription(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.DESCRIPTION)));
 
             drinkList.add(drink);
         }

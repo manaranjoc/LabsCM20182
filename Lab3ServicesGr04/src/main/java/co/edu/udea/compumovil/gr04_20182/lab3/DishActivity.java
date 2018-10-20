@@ -121,6 +121,7 @@ public class DishActivity extends AppCompatActivity {
         dishPojo.setPrice(priceMeal.getText().toString());
         TextView ingredients = findViewById(R.id.ingredients);
         dishPojo.setIngredients(ingredientsMeal.getText().toString());
+        dishPojo.setDescription("Function not allowed for items created by users");
         name.setText(nameMeal.getText());
         price.setText(priceMeal.getText());
         ingredients.setText(ingredientsMeal.getText());
@@ -374,6 +375,7 @@ public class DishActivity extends AppCompatActivity {
         values.put(DishContract.Column.SCHEDULE,dishPojo.getSchedule());
         values.put(DishContract.Column.INGREDIENTS,dishPojo.getIngredients());
         values.put(DishContract.Column.FAVORITE,dishPojo.isFavorite());
+        values.put(DishContract.Column.DESCRIPTION, dishPojo.getDescription());
 
         try {
             db.insertWithOnConflict(DishContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
