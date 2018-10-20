@@ -68,4 +68,6 @@
     <string name="update_settings">Configuraciónes de actualización</string>
     <string name="update_interval">Intervalo de Actualización</string>
     <string name="frequency_update">Frecuencia de actualización</string>
+    <string name="about_us_description">Esta es una aplicación diseñada por movi industries con el objetivo de dar al usuario aceso al menu de Dominos y incluir nuevos items que no fueron agregados por los desarrolladores</string>
+    <string name="user">Usuario</string>
 </resources>

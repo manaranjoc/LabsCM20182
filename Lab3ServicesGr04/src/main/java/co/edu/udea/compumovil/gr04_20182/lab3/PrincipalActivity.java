@@ -235,6 +235,11 @@ public class PrincipalActivity extends AppCompatActivity
             Intent closeIntent = new Intent(PrincipalActivity.this, LoginActivity.class);
             PrincipalActivity.this.startActivity(closeIntent);
         } else if (id == R.id.nav_about) {
+            fabMenu.setVisibility(View.GONE);
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.principal_fragment, new AboutFragment());
+            ft.commit();
+
             fragment = 0;
         }
 

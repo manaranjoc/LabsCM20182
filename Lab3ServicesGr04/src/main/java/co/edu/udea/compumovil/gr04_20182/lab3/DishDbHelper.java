@@ -31,7 +31,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "35000");
         values.put(DishContract.Column.TIME, "35 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.IMAGE, "http://www.jolpani.com/wp-content/uploads/2018/04/pizza.jpeg");
         values.put(DishContract.Column.SCHEDULE, "Morning");
         values.put(DishContract.Column.INGREDIENTS, "Only Cheese");
         values.put(DishContract.Column.FAVORITE, 0);
@@ -53,7 +53,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Dessert");
         values.put(DishContract.Column.PRICE, "20000");
         values.put(DishContract.Column.TIME, "15 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.IMAGE, "https://t2.rg.ltmcdn.com/es/images/6/1/8/img_pizza_de_fresas_con_chocolate_58816_600.jpg");
         values.put(DishContract.Column.SCHEDULE, "Afternoon, Noon");
         values.put(DishContract.Column.INGREDIENTS, "Chocolate");
         values.put(DishContract.Column.FAVORITE, 0);
@@ -64,7 +64,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Main Dish");
         values.put(DishContract.Column.PRICE, "50000");
         values.put(DishContract.Column.TIME, "20 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.IMAGE, "http://www.eltoquepizzeriagranada.oferto.co/files/galerias/b120140905054836.jpg");
         values.put(DishContract.Column.SCHEDULE, "Morning");
         values.put(DishContract.Column.INGREDIENTS, "Cherry, Pineapple");
         values.put(DishContract.Column.FAVORITE, 0);
@@ -75,7 +75,7 @@ public class DishDbHelper extends SQLiteOpenHelper{
         values.put(DishContract.Column.TYPE, "Entrance");
         values.put(DishContract.Column.PRICE, "5000");
         values.put(DishContract.Column.TIME, "5 min");
-        values.put(DishContract.Column.IMAGE, "android.resource://co.edu.udea.compumovil.gr04_20182.lab2/drawable/pizza_peperonni");
+        values.put(DishContract.Column.IMAGE, "https://noshingwiththenolands.com/wp-content/uploads/2016/06/Mozzarella-Cheese-Sticks-by-Noshing-With-The-Nolands-square-Small.jpg");
         values.put(DishContract.Column.SCHEDULE, "Afternoon");
         values.put(DishContract.Column.INGREDIENTS, "Cheese, Bread");
         values.put(DishContract.Column.FAVORITE, 0);
