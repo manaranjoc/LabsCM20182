@@ -6,14 +6,22 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -24,10 +32,14 @@ import gun0912.tedbottompicker.TedBottomPicker;
 public class RegisterActivity extends AppCompatActivity{
 
     private String uriApp;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+
         setContentView(R.layout.activity_register);
 
         Button changeImage = findViewById(R.id.change_image);
@@ -75,11 +87,41 @@ public class RegisterActivity extends AppCompatActivity{
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText name = findViewById(R.id.dish_name);
+                final EditText name = findViewById(R.id.dish_name);
                 EditText email = findViewById(R.id.email);
                 EditText password = findViewById(R.id.password);
 
-                UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
+                mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    Log.d("Usuario: ", "createUserWithEmail: success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if(user != null) {
+                                        //TODO:Agregar Foto de perfil
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(name.getText().toString())
+                                                .build();
+                                        user.updateProfile(profileUpdates)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Log.d("Usuario: ", "Nombre actualizado");
+                                                            updateUI();
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                } else {
+                                    Log.w("Usuario ", "createUserWithEmail: Failure", task.getException());
+                                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                /*UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
                 SQLiteDatabase db = usersDbHelper.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
@@ -97,11 +139,9 @@ public class RegisterActivity extends AppCompatActivity{
                     Toast.makeText(getApplicationContext(), "The User is already in the database", Toast.LENGTH_SHORT).show();
                 }
                 if(flag){
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    RegisterActivity.this.startActivity(intent);
-                    RegisterActivity.this.finish();
-                }
+
+
+                }*/
 
 
             }
@@ -130,5 +170,12 @@ public class RegisterActivity extends AppCompatActivity{
         }catch (IllegalArgumentException e){
             e.printStackTrace();
         }
+    }
+
+    private void updateUI(){
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            RegisterActivity.this.startActivity(intent);
+            RegisterActivity.this.finish();
     }
 }

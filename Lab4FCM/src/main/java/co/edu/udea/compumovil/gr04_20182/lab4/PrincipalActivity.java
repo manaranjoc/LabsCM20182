@@ -179,6 +179,7 @@ public class PrincipalActivity extends AppCompatActivity
 
             fragment = 0;
         }else if(id == R.id.action_close){
+            //TODO: agregar metodo de salida de sección.
             SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -236,6 +237,7 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = 0;
 
         } else if (id == R.id.nav_close) {
+            //TODO: Agregar cerrado de sección
             SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 

@@ -7,28 +7,50 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class LoginActivity extends AppCompatActivity{
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //TODO: pasar a otro ambito de la actividad
+        mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    public void updateUI(FirebaseUser currentUser){
         PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
         SharedPreferences sharedPreferencesS = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean saveLogin = sharedPreferencesS.getBoolean("save_login", true);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
         boolean isUserLogged = sharedPreferences.getBoolean("Logged", false);
-        if(isUserLogged && saveLogin){
+        if(currentUser != null){
             Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
             LoginActivity.this.startActivity(intent);
         }else {
@@ -40,7 +62,23 @@ public class LoginActivity extends AppCompatActivity{
                     EditText email = findViewById(R.id.email);
                     EditText password = findViewById(R.id.password);
 
-                    UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
+                    mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Log.d("Login: ", "signInWithEmail: success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            }else{
+                                Log.w("Login: ", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    /*UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
                     SQLiteDatabase db = usersDbHelper.getWritableDatabase();
 
                     String consultaSQL = "select * from " + UserContract.TABLE;
@@ -73,7 +111,7 @@ public class LoginActivity extends AppCompatActivity{
                     }
                     if (flag) {
                         Toast.makeText(getApplicationContext(), "Wrong Email or Password", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
             });
 
