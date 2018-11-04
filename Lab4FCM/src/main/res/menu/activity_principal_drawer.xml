@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dish_list"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/dishes" />
+        <item
+            android:id="@+id/nav_drink_list"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/drink" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_action_profile"
+            android:title="@string/profile" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/configuration" />
+        <item
+            android:id="@+id/nav_close"
+            android:icon="@drawable/ic_menu_close"
+            android:title="@string/close_session" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_info"
+            android:title="@string/about_us" />
+    </group>
+
+
+</menu>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Edit Profile"
+        android:summary="edit your email, password, name and profile pic">
+        <EditTextPreference
+            android:inputType="textPersonName"
+            android:title="@string/name"
+            android:key="name" />
+        <EditTextPreference
+            android:inputType="textEmailAddress"
+            android:title="@string/email"
+            android:key="email" />
+        <EditTextPreference
+            android:inputType="textPassword"
+            android:title="@string/password"
+            android:key="password" />
+        <Preference
+            android:title="Picture"
+            android:key="profile">
+
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/update_settings">
+        <ListPreference
+            android:title="@string/update_interval"
+            android:key="interval"
+            android:summary="@string/frequency_update"
+            android:entries="@array/time_array"
+            android:entryValues="@array/time_entries"
+            android:defaultValue="60"/>
+    </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:title="@string/save_login"
+        android:key="save_login"
+        android:defaultValue="true"
+        android:summary="@string/maintain_login"/>
+    <PreferenceCategory
+        android:title="Notification">
+        <CheckBoxPreference
+            android:title="@string/auth_not"
+            android:key="allow_notifications"
+            android:summary="@string/allow_not"/>
+        <CheckBoxPreference
+            android:title="@string/aut_sound"
+            android:key="allow_sound"
+            android:summary="@string/auth_sound"/>
+    </PreferenceCategory>
+</PreferenceScreen>
