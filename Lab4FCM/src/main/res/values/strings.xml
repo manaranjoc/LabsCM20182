@@ -30,7 +30,7 @@
     <string name="exit">Exit</string>
     <string name="drinks">Drinks</string>
 
-    <string name="app_name">Lab3ServicesGr04</string>
+    <string name="app_name">Lab4FCMGr04</string>
     <string name="title_activity_register">Register</string>
     <string name="register">Register</string>
     <string name="title_activity_principal">Menu</string>
@@ -82,4 +82,5 @@
 
     <string name="user">User</string>
     <string name="description">Description</string>
+    <string name="sign_in_google">Sign In with Google</string>
 </resources>

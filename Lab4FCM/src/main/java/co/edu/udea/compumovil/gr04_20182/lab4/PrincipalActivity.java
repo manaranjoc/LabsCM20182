@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,17 +23,40 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 public class PrincipalActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment{
+        implements NavigationView.OnNavigationItemSelectedListener, CommunicationDetailsDrinkFragment, CommunicationDetailsDishFragment ,GoogleApiClient.OnConnectionFailedListener{
     int fragment = 0;
     int fragmetBack = 0;
     private FloatingActionsMenu fabMenu;
+
+    private FirebaseAuth mFirebaseAuth;
+
+    private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
         setContentView(R.layout.activity_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -179,16 +204,20 @@ public class PrincipalActivity extends AppCompatActivity
 
             fragment = 0;
         }else if(id == R.id.action_close){
-            //TODO: agregar metodo de salida de sección.
-            SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
+            /*SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putBoolean("Logged", false);
             editor.putString("email", null);
-            editor.commit();
+            editor.commit();*/
+
+            mFirebaseAuth.signOut();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
 
             Intent closeIntent = new Intent(PrincipalActivity.this, LoginActivity.class);
+            closeIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             PrincipalActivity.this.startActivity(closeIntent);
+            PrincipalActivity.this.finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -237,13 +266,15 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = 0;
 
         } else if (id == R.id.nav_close) {
-            //TODO: Agregar cerrado de sección
-            SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
+            /*SharedPreferences sharedPreferences = this.getSharedPreferences("Logged", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putBoolean("Logged", false);
             editor.putString("email", null);
-            editor.commit();
+            editor.commit();*/
+
+            mFirebaseAuth.signOut();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
 
             Intent closeIntent = new Intent(PrincipalActivity.this, LoginActivity.class);
             closeIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -374,5 +405,10 @@ public class PrincipalActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         fragment = savedInstanceState.getInt("fragment");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("Principal: ", "ConnectionFailed");
     }
 }
