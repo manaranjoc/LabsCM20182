@@ -28,6 +28,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,9 +46,13 @@ public class PrincipalActivity extends AppCompatActivity
 
     private GoogleApiClient mGoogleApiClient;
 
+    private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -145,38 +154,42 @@ public class PrincipalActivity extends AppCompatActivity
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
                 if(getSupportFragmentManager().findFragmentByTag("DISH") != null && getSupportFragmentManager().findFragmentByTag("DISH").isVisible()){
+                    databaseReference.child("dishes").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ArrayList<DishPojo> dishList = new ArrayList<>();
+                            for(DataSnapshot dishSnapshot: dataSnapshot.getChildren()){
+                                dishList.add(dishSnapshot.getValue(DishPojo.class));
+                            }
+                            dishList = searchDishList(dishList, newText);
+                            searchDish(dishList);
+                        }
 
-                    DishFragment dishFragment = new DishFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("object",searchDishList(newText));
-                    dishFragment.setArguments(bundle);
-                    if(fragmetBack>0){
-                        getSupportFragmentManager().popBackStack();
-                        fragmetBack--;
-                    }
-                    if(findViewById(R.id.list_fragment)!=null){
-                        getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, dishFragment, "DISH").addToBackStack(null).commit();
-                    }else {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, dishFragment, "DISH").addToBackStack(null).commit();
-                    }
-                    fragmetBack++;
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }else if(getSupportFragmentManager().findFragmentByTag("DRINK") != null && getSupportFragmentManager().findFragmentByTag("DRINK").isVisible()){
-                    DrinksFragment drinksFragment = new DrinksFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("object",searchDrinkList(newText));
-                    drinksFragment.setArguments(bundle);
-                    if(fragmetBack>0){
-                        getSupportFragmentManager().popBackStack();
-                        fragmetBack--;
-                    }
-                    if(findViewById(R.id.list_fragment)!=null){
-                        getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
-                    }else {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
-                    }
-                    fragmetBack++;
+                    databaseReference.child("drinks").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ArrayList<DrinkPojo> drinkList = new ArrayList<>();
+                            for(DataSnapshot drinkSnapshot: dataSnapshot.getChildren()){
+                                drinkList.add(drinkSnapshot.getValue(DrinkPojo.class));
+                            }
+                            drinkList = searchDrinkList(drinkList, newText);
+                            searchDrink(drinkList);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 return false;
             }
@@ -320,8 +333,7 @@ public class PrincipalActivity extends AppCompatActivity
         }
     }
 
-    public ArrayList<DishPojo> searchDishList(String newText){
-        ArrayList<DishPojo> dishList = getAllDish();
+    public ArrayList<DishPojo> searchDishList(ArrayList<DishPojo> dishList, String newText){
         ArrayList<DishPojo> tempDish = new ArrayList<>();
         for(DishPojo item: dishList){
             if(item.getName().toLowerCase().contains(newText.toLowerCase())||item.getPrice().toLowerCase().contains(newText.toLowerCase())){
@@ -331,8 +343,24 @@ public class PrincipalActivity extends AppCompatActivity
         return tempDish;
     }
 
-    public ArrayList<DrinkPojo> searchDrinkList(String newText){
-        ArrayList<DrinkPojo> drinkList = getAllDrink();
+    public void searchDish(ArrayList<DishPojo> dishes){
+        DishFragment dishFragment = new DishFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object",dishes);
+        dishFragment.setArguments(bundle);
+        if(fragmetBack>0){
+            getSupportFragmentManager().popBackStack();
+            fragmetBack--;
+        }
+        if(findViewById(R.id.list_fragment)!=null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, dishFragment, "DISH").addToBackStack(null).commit();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, dishFragment, "DISH").addToBackStack(null).commit();
+        }
+        fragmetBack++;
+    }
+
+    public ArrayList<DrinkPojo> searchDrinkList(ArrayList<DrinkPojo> drinkList, String newText){
         ArrayList<DrinkPojo> tempDrink = new ArrayList<>();
         for(DrinkPojo item: drinkList){
             if(item.getName().toLowerCase().contains(newText.toLowerCase())||item.getPrice().toLowerCase().contains(newText.toLowerCase())){
@@ -342,57 +370,21 @@ public class PrincipalActivity extends AppCompatActivity
         return tempDrink;
     }
 
-    public ArrayList<DishPojo> getAllDish(){
-        DishDbHelper dishDbHelper = new DishDbHelper(this);
-        SQLiteDatabase db = dishDbHelper.getReadableDatabase();
-        String consultaSQL = "select * from "+DishContract.TABLE;
-
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
-        ArrayList<DishPojo> dishList = new ArrayList<>();
-        DishPojo dish = null;
-
-        while (cursor.moveToNext()){
-            dish = new DishPojo();
-            dish.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
-            dish.setName(cursor.getString(cursor.getColumnIndex(DishContract.Column.NAME)));
-            dish.setType(cursor.getString(cursor.getColumnIndex(DishContract.Column.TYPE)));
-            dish.setPrice(cursor.getString(cursor.getColumnIndex(DishContract.Column.PRICE)));
-            dish.setTime(cursor.getString(cursor.getColumnIndex(DishContract.Column.TIME)));
-            dish.setImageUri(cursor.getString(cursor.getColumnIndex(DishContract.Column.IMAGE)));
-            dish.setSchedule(cursor.getString(cursor.getColumnIndex(DishContract.Column.SCHEDULE)));
-            dish.setIngredients(cursor.getString(cursor.getColumnIndex(DishContract.Column.INGREDIENTS)));
-            dish.setFavorite(cursor.getInt(cursor.getColumnIndex(DishContract.Column.FAVORITE))>0);
-            dish.setDescription(cursor.getString(cursor.getColumnIndex(DishContract.Column.DESCRIPTION)));
-
-            dishList.add(dish);
+    public void searchDrink(ArrayList<DrinkPojo> drinkPojos){
+        DrinksFragment drinksFragment = new DrinksFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object",drinkPojos);
+        drinksFragment.setArguments(bundle);
+        if(fragmetBack>0){
+            getSupportFragmentManager().popBackStack();
+            fragmetBack--;
         }
-        return dishList;
-    }
-
-    public ArrayList<DrinkPojo> getAllDrink(){
-        DrinkDbHelper drinkDbHelper = new DrinkDbHelper(this);
-        SQLiteDatabase db = drinkDbHelper.getReadableDatabase();
-        String consultaSQL = "select * from "+DrinkContract.TABLE;
-
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
-        ArrayList<DrinkPojo> drinkList = new ArrayList<>();
-        DrinkPojo drink = null;
-
-        while (cursor.moveToNext()){
-            drink = new DrinkPojo();
-            drink.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
-            drink.setName(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.NAME)));
-            drink.setPrice(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.PRICE)));
-            drink.setImageUri(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.IMAGE)));
-            drink.setIngredients(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.INGREDIENTS)));
-            drink.setFavorite(cursor.getInt(cursor.getColumnIndex(DrinkContract.Column.FAVORITE))>0);
-            drink.setDescription(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.DESCRIPTION)));
-
-            drinkList.add(drink);
+        if(findViewById(R.id.list_fragment)!=null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.list_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.principal_fragment, drinksFragment, "DRINK").addToBackStack(null).commit();
         }
-        return drinkList;
+        fragmetBack++;
     }
 
     @Override

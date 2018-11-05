@@ -16,9 +16,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -34,15 +42,10 @@ public class DrinksFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     DrinkAdapter drinkAdapter;
 
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
     Activity activity;
     CommunicationDetailsDrinkFragment interfaceComunication;
-
-    private BroadcastReceiver broadcastService = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateView();
-        }
-    };
 
     public DrinksFragment() {
         // Required empty public constructor
@@ -80,46 +83,32 @@ public class DrinksFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         if(bundle!=null && bundle.containsKey("object")) {
             drinkList = (ArrayList<DrinkPojo>) bundle.getSerializable("object");
+
+            updateView();
         }else{
             getAll();
         }
 
-        drinkAdapter = new DrinkAdapter(drinkList);
 
-        drinkAdapter.setOnClickListener(new View.OnClickListener() {
+    }
+
+    public void getAll(){
+        drinkList = new ArrayList<>();
+        database.child("drinks").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot drinkSnapshot: dataSnapshot.getChildren()){
+                    drinkList.add(drinkSnapshot.getValue(DrinkPojo.class));
+                }
+                updateView();
+            }
 
-                interfaceComunication.sendDrink(drinkList.get(recyclerView.getChildAdapterPosition(view)));
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-        recyclerView.setAdapter(drinkAdapter);
-    }
-
-    public void getAll(){
-        DrinkDbHelper drinkDbHelper = new DrinkDbHelper(getContext());
-        SQLiteDatabase db = drinkDbHelper.getReadableDatabase();
-        String consultaSQL = "select * from "+DrinkContract.TABLE;
-
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
-        drinkList = new ArrayList<>();
-        DrinkPojo drink = null;
-
-        while (cursor.moveToNext()){
-            drink = new DrinkPojo();
-            drink.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
-            drink.setName(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.NAME)));
-            drink.setPrice(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.PRICE)));
-            drink.setImageUri(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.IMAGE)));
-            drink.setIngredients(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.INGREDIENTS)));
-            drink.setFavorite(cursor.getInt(cursor.getColumnIndex(DrinkContract.Column.FAVORITE))>0);
-            drink.setDescription(cursor.getString(cursor.getColumnIndex(DrinkContract.Column.DESCRIPTION)));
-
-            drinkList.add(drink);
-        }
     }
 
     @Override
@@ -134,20 +123,11 @@ public class DrinksFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
-        loadRecyclerView();
-    }
-
-    private void loadRecyclerView(){
         mSwipeRefreshLayout.setRefreshing(true);
-
-        getContext().registerReceiver(broadcastService, new IntentFilter(ReceiverService.UPDATE_ACTION_DRINK));
-        Intent intent = new Intent(getActivity(), ReceiverService.class);
-        intent.putExtra("interval", Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("interval","60")));
-        getActivity().startService(intent);
+        updateView();
     }
 
     private void updateView(){
-        getAll();
 
         drinkAdapter = new DrinkAdapter(drinkList);
 
@@ -161,8 +141,6 @@ public class DrinksFragment extends Fragment implements SwipeRefreshLayout.OnRef
         });
 
         recyclerView.setAdapter(drinkAdapter);
-
-        getContext().unregisterReceiver(broadcastService);
 
         mSwipeRefreshLayout.setRefreshing(false);
     }

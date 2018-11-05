@@ -20,6 +20,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 
@@ -33,6 +39,8 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     RecyclerView recyclerView;
 
     DishAdapter dishAdapter;
+
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
     Activity activity;
     CommunicationDetailsDishFragment communicationDetailsDishFragment;
@@ -83,47 +91,29 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         if(bundle!=null && bundle.containsKey("object")){
             dishList = (ArrayList<DishPojo>) bundle.getSerializable("object");
+            updateView();
         }else{
             getAll();
         }
-        dishAdapter = new DishAdapter(dishList);
-
-        dishAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                communicationDetailsDishFragment.sendDish(dishList.get(recyclerView.getChildAdapterPosition(view)));
-            }
-        });
-
-        recyclerView.setAdapter(dishAdapter);
 
     }
 
     public void getAll(){
-        DishDbHelper dishDbHelper = new DishDbHelper(getContext());
-        SQLiteDatabase db = dishDbHelper.getReadableDatabase();
-        String consultaSQL = "select * from "+DishContract.TABLE;
-
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
         dishList = new ArrayList<>();
-        DishPojo dish = null;
+        database.child("dishes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot dishSnapshot: dataSnapshot.getChildren()){
+                    dishList.add(dishSnapshot.getValue(DishPojo.class));
+                }
+                updateView();
+            }
 
-        while (cursor.moveToNext()){
-            dish = new DishPojo();
-            dish.setId(cursor.getInt(cursor.getColumnIndex(DishContract.Column.ID)));
-            dish.setName(cursor.getString(cursor.getColumnIndex(DishContract.Column.NAME)));
-            dish.setType(cursor.getString(cursor.getColumnIndex(DishContract.Column.TYPE)));
-            dish.setPrice(cursor.getString(cursor.getColumnIndex(DishContract.Column.PRICE)));
-            dish.setTime(cursor.getString(cursor.getColumnIndex(DishContract.Column.TIME)));
-            dish.setImageUri(cursor.getString(cursor.getColumnIndex(DishContract.Column.IMAGE)));
-            dish.setSchedule(cursor.getString(cursor.getColumnIndex(DishContract.Column.SCHEDULE)));
-            dish.setIngredients(cursor.getString(cursor.getColumnIndex(DishContract.Column.INGREDIENTS)));
-            dish.setFavorite(cursor.getInt(cursor.getColumnIndex(DishContract.Column.FAVORITE))>0);
-            dish.setDescription(cursor.getString(cursor.getColumnIndex(DishContract.Column.DESCRIPTION)));
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            dishList.add(dish);
-        }
+            }
+        });
 
     }
 
@@ -139,16 +129,8 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        loadRecyclerViewData();
-    }
-
-    private void loadRecyclerViewData(){
         mSwipeRefreshLayout.setRefreshing(true);
-
-        getContext().registerReceiver(broadcastService, new IntentFilter(ReceiverService.UPDATE_ACTION_DISH));
-        Intent intent = new Intent(getActivity(), ReceiverService.class);
-        intent.putExtra("interval", Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("interval","60")));
-        getActivity().startService(intent);
+        updateView();
     }
 
     private void updateView(){
@@ -164,8 +146,6 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
 
         recyclerView.setAdapter(dishAdapter);
-
-        getContext().unregisterReceiver(broadcastService);
 
         mSwipeRefreshLayout.setRefreshing(false);
     }
