@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private static final int RC_SIGN_IN = 9001;
 
+    private Boolean saveLogin;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +133,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         findViewById(R.id.button_google).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!saveLogin) {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                }
                 signIn();
             }
         });
@@ -140,14 +145,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onStart() {
         super.onStart();
 
+        PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
+        SharedPreferences sharedPreferencesS = PreferenceManager.getDefaultSharedPreferences(this);
+        saveLogin = sharedPreferencesS.getBoolean("save_login", true);
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if(saveLogin) {
+            updateUI(currentUser);
+        }else{
+            if(currentUser!=null){
+                mAuth.signOut();
+            }
+        }
     }
 
     public void updateUI(FirebaseUser currentUser){
-        PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
-        SharedPreferences sharedPreferencesS = PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean saveLogin = sharedPreferencesS.getBoolean("save_login", true);
+
 
         /*SharedPreferences sharedPreferences = getSharedPreferences("Logged", Context.MODE_PRIVATE);
         boolean isUserLogged = sharedPreferences.getBoolean("Logged", false);*/
