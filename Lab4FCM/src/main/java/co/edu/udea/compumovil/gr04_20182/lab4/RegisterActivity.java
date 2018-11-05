@@ -90,58 +90,47 @@ public class RegisterActivity extends AppCompatActivity{
                 final EditText name = findViewById(R.id.dish_name);
                 EditText email = findViewById(R.id.email);
                 EditText password = findViewById(R.id.password);
-
-                mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
-                                    Log.d("Usuario: ", "createUserWithEmail: success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    if(user != null) {
-                                        //TODO:Agregar Foto de perfil
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(name.getText().toString())
-                                                .build();
-                                        user.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Log.d("Usuario: ", "Nombre actualizado");
-                                                            updateUI();
+                if(password.getText().toString().length()>=6) {
+                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("Usuario: ", "createUserWithEmail: success");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        if (user != null) {
+                                            UserProfileChangeRequest profileUpdates;
+                                            if (uriApp != null) {
+                                                profileUpdates = new UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(name.getText().toString())
+                                                        .setPhotoUri(Uri.parse(uriApp))
+                                                        .build();
+                                            } else {
+                                                profileUpdates = new UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(name.getText().toString())
+                                                        .build();
+                                            }
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Log.d("Usuario: ", "Nombre y foto actualizados");
+                                                                updateUI();
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                        }
+                                    } else {
+                                        Log.w("Usuario ", "createUserWithEmail: Failure", task.getException());
+                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
-                                    Log.w("Usuario ", "createUserWithEmail: Failure", task.getException());
-                                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
                                 }
-                            }
-                        });
-                /*UsersDbHelper usersDbHelper = new UsersDbHelper(getApplicationContext());
-                SQLiteDatabase db = usersDbHelper.getWritableDatabase();
-
-                ContentValues values = new ContentValues();
-
-                values.put(UserContract.Column.NAME, name.getText().toString());
-                values.put(UserContract.Column.EMAIL, email.getText().toString());
-                values.put(UserContract.Column.PASSWORD, password.getText().toString());
-                values.put(UserContract.Column.IMAGE, uriApp);
-                boolean flag = false;
-                try {
-                    db.insertWithOnConflict(UserContract.TABLE, null, values, SQLiteDatabase.CONFLICT_ABORT);
-                    db.close();
-                    flag = true;
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "The User is already in the database", Toast.LENGTH_SHORT).show();
+                            });
+                }else{
+                    Toast.makeText(RegisterActivity.this,getString(R.string.incorrect_password), Toast.LENGTH_LONG).show();
                 }
-                if(flag){
-
-
-                }*/
 
 
             }

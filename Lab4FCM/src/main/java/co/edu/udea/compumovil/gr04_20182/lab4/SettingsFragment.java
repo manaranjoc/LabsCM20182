@@ -7,10 +7,17 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -20,10 +27,14 @@ import gun0912.tedbottompicker.TedBottomPicker;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private FirebaseUser user;
+    private UserProfileChangeRequest profileUpdates;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings_screen,rootKey);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         Preference picture = findPreference("profile");
         picture.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -36,16 +47,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                                 .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                                     @Override
                                     public void onImageSelected(Uri uri) {
-                                        // here is selected uri
-                                        String profileUri = uri.toString();
-                                        int id = getPreferenceScreen().getSharedPreferences().getInt("id",-1);
-                                        UsersDbHelper usersDbHelper = new UsersDbHelper(getActivity().getApplicationContext());
-                                        SQLiteDatabase db = usersDbHelper.getWritableDatabase();
-                                        String criterio = UserContract.Column.ID+"= "+id;
-                                        ContentValues values = new ContentValues();
-                                        values.put(UserContract.Column.IMAGE,profileUri);
+                                        profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setPhotoUri(uri)
+                                                .build();
 
-                                        db.updateWithOnConflict(UserContract.TABLE, values, criterio, null, SQLiteDatabase.CONFLICT_IGNORE);
+                                        user.updateProfile(profileUpdates)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()){
+                                                            Log.d("Settings: ", "User image updated");
+                                                        }
+                                                    }
+                                                });
                                     }
                                 })
                                 .create();
@@ -89,23 +103,39 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         UsersDbHelper usersDbHelper = new UsersDbHelper(getActivity().getApplicationContext());
         SQLiteDatabase db = usersDbHelper.getWritableDatabase();
         if(s.equals("email")){
-            String criterio = UserContract.Column.ID+"= "+id;
-            ContentValues values = new ContentValues();
-            values.put(UserContract.Column.EMAIL,sharedPreferences.getString("email", ""));
-
-            db.updateWithOnConflict(UserContract.TABLE, values, criterio, null, SQLiteDatabase.CONFLICT_IGNORE);
+            user.updateEmail(sharedPreferences.getString("email", ""))
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Log.d("Settings: ", "User email address updated");
+                    }
+                }
+            });
         }else if(s.equals("name")){
-            String criterio = UserContract.Column.ID+"= "+id;
-            ContentValues values = new ContentValues();
-            values.put(UserContract.Column.NAME,sharedPreferences.getString("name", ""));
+            profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(sharedPreferences.getString("name", ""))
+                    .build();
 
-            db.updateWithOnConflict(UserContract.TABLE, values, criterio, null, SQLiteDatabase.CONFLICT_IGNORE);
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Log.d("Settings: ", "User name updated");
+                            }
+                        }
+                    });
         }else if(s.equals("password")){
-            String criterio = UserContract.Column.ID+"= "+id;
-            ContentValues values = new ContentValues();
-            values.put(UserContract.Column.PASSWORD,sharedPreferences.getString("password", ""));
-
-            db.updateWithOnConflict(UserContract.TABLE, values, criterio, null, SQLiteDatabase.CONFLICT_IGNORE);
+            user.updatePassword(sharedPreferences.getString("password", ""))
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.d("Settings: ", "User password updated");
+                            }
+                        }
+                    });
         }else if(s.equals("interval")){
             Intent service = new Intent(getContext(), ReceiverService.class);
             service.putExtra("interval", Integer.parseInt(sharedPreferences.getString("interval", "60")));
