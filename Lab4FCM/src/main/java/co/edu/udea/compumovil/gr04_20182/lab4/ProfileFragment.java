@@ -16,6 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,33 +42,23 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         TextView name = view.findViewById(R.id.names);
         TextView email = view.findViewById(R.id.email);
         ImageView imageView = view.findViewById(R.id.profile_picture);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Logged", Context.MODE_PRIVATE);
-        String savedEmail = sharedPreferences.getString("email", null);
+        if(user!=null){
+            email.setText(user.getEmail());
 
-        email.setText(savedEmail);
+            name.setText(user.getDisplayName());
+            Picasso.get()
+                    .load(user.getPhotoUrl())
+                    .placeholder(R.drawable.ic_account)
+                    .error(R.drawable.ic_account)
+                    .into(imageView);
 
-        UsersDbHelper dbHelper = new UsersDbHelper(getContext());
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        String consultaSQL = "select * from "+UserContract.TABLE;
-
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
-        while (cursor.moveToNext()){
-            if(cursor.getString(cursor.getColumnIndex(UserContract.Column.EMAIL)).equals(savedEmail)){
-                name.setText(cursor.getString(cursor.getColumnIndex(UserContract.Column.NAME)));
-                try {
-                    Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(UserContract.Column.IMAGE)));
-                    imageView.setImageURI(imageUri);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                break;
-            }
         }
 
 
