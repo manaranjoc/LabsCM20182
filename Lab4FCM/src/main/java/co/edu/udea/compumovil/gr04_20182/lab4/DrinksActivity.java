@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -31,12 +37,16 @@ public class DrinksActivity extends AppCompatActivity {
 
     DrinkPojo drinkPojo = new DrinkPojo();
 
+    private DatabaseReference mDatabase;
+
     Context context;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drinks);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Button mealGallery = findViewById(R.id.meal_gallery);
 
@@ -258,7 +268,9 @@ public class DrinksActivity extends AppCompatActivity {
     }
 
     public void createDrinkDatabase(){
-        DrinkDbHelper drinkDbHelper = new DrinkDbHelper(this);
+        mDatabase.child("drinks").push().setValue(drinkPojo);
+
+        /*DrinkDbHelper drinkDbHelper = new DrinkDbHelper(this);
         SQLiteDatabase db = drinkDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -276,6 +288,6 @@ public class DrinksActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "The Drinks is already in the database", Toast.LENGTH_SHORT).show();
         }finally {
             db.close();
-        }
+        }*/
     }
 }

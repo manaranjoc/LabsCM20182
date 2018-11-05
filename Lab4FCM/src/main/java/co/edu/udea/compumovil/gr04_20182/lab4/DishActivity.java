@@ -22,6 +22,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -34,12 +36,16 @@ public class DishActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    private DatabaseReference mDatabase;
+
     DishPojo dishPojo = new DishPojo();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -362,7 +368,9 @@ public class DishActivity extends AppCompatActivity {
     }
 
     private void createDishDatabase(){
-        DishDbHelper dishDbHelper = new DishDbHelper(this);
+        mDatabase.child("dishes").push().setValue(dishPojo);
+
+        /*DishDbHelper dishDbHelper = new DishDbHelper(this);
         SQLiteDatabase db = dishDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -383,6 +391,6 @@ public class DishActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "The Dish is already in the database", Toast.LENGTH_SHORT).show();
         }finally {
             db.close();
-        }
+        }*/
     }
 }
