@@ -43,6 +43,7 @@
         <CheckBoxPreference
             android:title="@string/auth_not"
             android:key="allow_notifications"
+            android:defaultValue="false"
             android:summary="@string/allow_not"/>
         <CheckBoxPreference
             android:title="@string/aut_sound"

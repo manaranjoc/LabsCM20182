@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,12 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("allow_notifications", false)){
+            FirebaseMessaging.getInstance().subscribeToTopic("notifications");
+        }else{
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("notifications");
+        }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 

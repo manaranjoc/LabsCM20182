@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -137,6 +138,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             Intent service = new Intent(getContext(), ReceiverService.class);
             service.putExtra("interval", Integer.parseInt(sharedPreferences.getString("interval", "60")));
             getContext().startService(service);
+        }else if(s.equals("allow_notifications")){
+            if(sharedPreferences.getBoolean(s, false)) {
+                FirebaseMessaging.getInstance().subscribeToTopic("notifications");
+            }else{
+                FirebaseMessaging.getInstance().unsubscribeFromTopic("notifications");
+            }
         }
     }
 
