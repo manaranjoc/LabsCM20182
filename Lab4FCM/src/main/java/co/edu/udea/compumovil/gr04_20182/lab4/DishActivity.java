@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,8 +25,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -37,6 +47,7 @@ public class DishActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     private DatabaseReference mDatabase;
+    private StorageReference mStorageReference;
 
     DishPojo dishPojo = new DishPojo();
 
@@ -46,6 +57,7 @@ public class DishActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dish);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mStorageReference = FirebaseStorage.getInstance().getReference();
 
         sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -368,7 +380,16 @@ public class DishActivity extends AppCompatActivity {
     }
 
     private void createDishDatabase(){
-        mDatabase.child("dishes").push().setValue(dishPojo);
+        mDatabase.child("dishes").push().setValue(dishPojo, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                String key = databaseReference.getKey();
+                Uri file = Uri.parse(dishPojo.getImageUri());
+                StorageReference dishImRef = mStorageReference.child("dishes").child(file.getLastPathSegment());
+
+                putDishImage(dishImRef, file, key);
+            }
+        });
 
         /*DishDbHelper dishDbHelper = new DishDbHelper(this);
         SQLiteDatabase db = dishDbHelper.getWritableDatabase();
@@ -392,5 +413,29 @@ public class DishActivity extends AppCompatActivity {
         }finally {
             db.close();
         }*/
+    }
+
+    public void putDishImage(final StorageReference storageReference, Uri file, final String key){
+        UploadTask uploadTask = storageReference.putFile(file);
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return storageReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    dishPojo.setImageUri(downloadUri.toString());
+                    mDatabase.child("dishes").child(key).setValue(dishPojo);
+                } else {
+                    Log.w("Dish Image: ", "Image Upload Task not successful");
+                }
+            }
+        });
     }
 }

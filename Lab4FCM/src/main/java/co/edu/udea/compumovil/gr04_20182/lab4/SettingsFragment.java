@@ -13,11 +13,15 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -29,12 +33,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private FirebaseUser user;
     private UserProfileChangeRequest profileUpdates;
+    private StorageReference storageReference;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings_screen,rootKey);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         Preference picture = findPreference("profile");
         picture.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -47,19 +53,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                                 .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                                     @Override
                                     public void onImageSelected(Uri uri) {
-                                        profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setPhotoUri(uri)
-                                                .build();
 
-                                        user.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
-                                                            Log.d("Settings: ", "User image updated");
-                                                        }
-                                                    }
-                                                });
+                                        StorageReference profileReference = storageReference.child("profile").child(user.getEmail());
+
+                                        putProfileImage(profileReference, uri);
                                     }
                                 })
                                 .create();
@@ -141,5 +138,45 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             service.putExtra("interval", Integer.parseInt(sharedPreferences.getString("interval", "60")));
             getContext().startService(service);
         }
+    }
+
+    public void putProfileImage(final StorageReference storageReference, Uri file){
+        UploadTask uploadTask = storageReference.putFile(file);
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return storageReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    UserProfileChangeRequest profileUpdates;
+
+                    profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(downloadUri)
+                            .build();
+
+                    if(user != null) {
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Log.d("Settings: ", "User image updated");
+                                        }
+                                    }
+                                });
+                    }
+
+                } else {
+                    Log.w("Profile Image: ", "Image Upload Task not successful");
+                }
+            }
+        });
     }
 }

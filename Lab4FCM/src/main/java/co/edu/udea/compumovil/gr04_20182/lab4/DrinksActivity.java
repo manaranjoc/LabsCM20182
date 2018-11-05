@@ -23,12 +23,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import gun0912.tedbottompicker.TedBottomPicker;
@@ -38,6 +47,7 @@ public class DrinksActivity extends AppCompatActivity {
     DrinkPojo drinkPojo = new DrinkPojo();
 
     private DatabaseReference mDatabase;
+    private StorageReference mStorageReference;
 
     Context context;
     @Override
@@ -47,6 +57,7 @@ public class DrinksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drinks);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mStorageReference = FirebaseStorage.getInstance().getReference();
 
         Button mealGallery = findViewById(R.id.meal_gallery);
 
@@ -268,7 +279,18 @@ public class DrinksActivity extends AppCompatActivity {
     }
 
     public void createDrinkDatabase(){
-        mDatabase.child("drinks").push().setValue(drinkPojo);
+        mDatabase.child("drinks").push().setValue(drinkPojo, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if(databaseError == null){
+                    String key = databaseReference.getKey();
+                    Uri file = Uri.parse(drinkPojo.getImageUri());
+                    StorageReference drinkImRef = mStorageReference.child("drinks").child(file.getLastPathSegment());
+
+                    putDrinkImage(drinkImRef, file, key);
+                }
+            }
+        });
 
         /*DrinkDbHelper drinkDbHelper = new DrinkDbHelper(this);
         SQLiteDatabase db = drinkDbHelper.getWritableDatabase();
@@ -289,5 +311,29 @@ public class DrinksActivity extends AppCompatActivity {
         }finally {
             db.close();
         }*/
+    }
+
+    public void putDrinkImage(final StorageReference storageReference, Uri file, final String key){
+        UploadTask uploadTask = storageReference.putFile(file);
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return storageReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    drinkPojo.setImageUri(downloadUri.toString());
+                    mDatabase.child("drinks").child(key).setValue(drinkPojo);
+                } else {
+                    Log.w("Drink Image: ", "Image Upload Task not successful");
+                }
+            }
+        });
     }
 }

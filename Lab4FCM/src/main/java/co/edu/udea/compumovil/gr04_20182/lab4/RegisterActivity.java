@@ -16,12 +16,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -33,12 +37,14 @@ public class RegisterActivity extends AppCompatActivity{
 
     private String uriApp;
     private FirebaseAuth mAuth;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         setContentView(R.layout.activity_register);
 
@@ -101,25 +107,27 @@ public class RegisterActivity extends AppCompatActivity{
                                         if (user != null) {
                                             UserProfileChangeRequest profileUpdates;
                                             if (uriApp != null) {
-                                                profileUpdates = new UserProfileChangeRequest.Builder()
-                                                        .setDisplayName(name.getText().toString())
-                                                        .setPhotoUri(Uri.parse(uriApp))
-                                                        .build();
+
+                                                StorageReference profileReference = storageReference.child("profile").child(user.getEmail());
+
+                                                putProfileImage(profileReference, Uri.parse(uriApp), name.getText().toString());
+
                                             } else {
                                                 profileUpdates = new UserProfileChangeRequest.Builder()
                                                         .setDisplayName(name.getText().toString())
                                                         .build();
-                                            }
-                                            user.updateProfile(profileUpdates)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Log.d("Usuario: ", "Nombre y foto actualizados");
-                                                                updateUI();
+                                                user.updateProfile(profileUpdates)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    Log.d("Usuario: ", "Nombre actualizada");
+                                                                    updateUI();
+                                                                }
                                                             }
-                                                        }
-                                                    });
+                                                        });
+                                            }
+
                                         }
                                     } else {
                                         Log.w("Usuario ", "createUserWithEmail: Failure", task.getException());
@@ -166,5 +174,47 @@ public class RegisterActivity extends AppCompatActivity{
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             RegisterActivity.this.startActivity(intent);
             RegisterActivity.this.finish();
+    }
+
+    public void putProfileImage(final StorageReference storageReference, Uri file, final String name){
+        UploadTask uploadTask = storageReference.putFile(file);
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return storageReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    UserProfileChangeRequest profileUpdates;
+                    profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(name)
+                            .setPhotoUri(downloadUri)
+                            .build();
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if(user != null) {
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("Usuario: ", "Foto actualizada");
+                                            updateUI();
+                                        }
+                                    }
+                                });
+                    }
+
+                } else {
+                    Log.w("Profile Image: ", "Image Upload Task not successful");
+                }
+            }
+        });
     }
 }
