@@ -139,7 +139,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             service.putExtra("interval", Integer.parseInt(sharedPreferences.getString("interval", "60")));
             getContext().startService(service);
         }else if(s.equals("allow_notifications")){
-            if(sharedPreferences.getBoolean(s, false)) {
+            if(sharedPreferences.getBoolean(s, true)) {
                 FirebaseMessaging.getInstance().subscribeToTopic("notifications");
             }else{
                 FirebaseMessaging.getInstance().unsubscribeFromTopic("notifications");

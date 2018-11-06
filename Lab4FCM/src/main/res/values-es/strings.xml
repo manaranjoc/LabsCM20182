@@ -73,4 +73,6 @@
     <string name="description">Description</string>
     <string name="sign_in_google">Ingresar con Google</string>
     <string name="incorrect_password">La contraseña debe tener minimo 6 caracteres</string>
+    <string name="appwidget_text">Ejemplo</string>
+    <string name="add_widget">Adicionar Widget</string>
 </resources>

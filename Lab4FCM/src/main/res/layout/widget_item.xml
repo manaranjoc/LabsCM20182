@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<ImageView
+    android:id="@+id/imageWidget"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:contentDescription="@string/image_of_meal"
+    android:scaleType="centerCrop"
+    app:srcCompat="@drawable/pizza_peperonni" />
+
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_below="@+id/imageWidget">
+<TextView
+    android:id="@+id/nameWidget"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginTop="0dp"
+    android:text="@string/name" />
+
+<TextView
+    android:id="@+id/typeWidget"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="@string/type_of_dish" />
+
+<TextView
+    android:id="@+id/priceWidget"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="@string/dish_price" />
+
+<TextView
+    android:id="@+id/timeWidget"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="@string/dish_time" />
+</LinearLayout>
+</RelativeLayout>

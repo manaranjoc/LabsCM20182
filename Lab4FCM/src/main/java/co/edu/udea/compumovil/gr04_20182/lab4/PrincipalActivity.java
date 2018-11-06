@@ -53,7 +53,7 @@ public class PrincipalActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("allow_notifications", false)){
+        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("allow_notifications", true)){
             FirebaseMessaging.getInstance().subscribeToTopic("notifications");
         }else{
             FirebaseMessaging.getInstance().unsubscribeFromTopic("notifications");

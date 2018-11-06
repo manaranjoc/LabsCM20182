@@ -84,4 +84,6 @@
     <string name="description">Description</string>
     <string name="sign_in_google">Sign In with Google</string>
     <string name="incorrect_password">Password must have at least 6 Char</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
