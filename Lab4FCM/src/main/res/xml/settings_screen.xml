@@ -48,6 +48,7 @@
         <CheckBoxPreference
             android:title="@string/aut_sound"
             android:key="allow_sound"
+            android:defaultValue="false"
             android:summary="@string/auth_sound"/>
     </PreferenceCategory>
 </PreferenceScreen>

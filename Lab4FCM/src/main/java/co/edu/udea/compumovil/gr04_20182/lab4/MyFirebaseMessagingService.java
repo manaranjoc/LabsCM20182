@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -34,12 +35,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getTitle());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        sendNotification(remoteMessage.getNotification().getBody());
+        sendNotification(remoteMessage.getNotification().getTitle());
     }
 
     private void sendNotification(String messageBody) {
@@ -47,20 +48,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
+        NotificationCompat.Builder notificationBuilder;
+        if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("allow_sound", false)){
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                //.setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setContentTitle("FCM Message")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            notificationBuilder = new NotificationCompat.Builder(this)
+                    //.setSmallIcon(R.drawable.ic_stat_ic_notification)
+                    .setContentTitle(messageBody)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText("new")
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
 
+        }else {
+
+            notificationBuilder = new NotificationCompat.Builder(this)
+                    //.setSmallIcon(R.drawable.ic_stat_ic_notification)
+                    .setContentTitle(messageBody)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText("new")
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+
+        }
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }

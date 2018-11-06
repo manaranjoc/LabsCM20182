@@ -134,7 +134,6 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void updateView(){
-        getAll();
 
         dishAdapter = new DishAdapter(dishList);
 
