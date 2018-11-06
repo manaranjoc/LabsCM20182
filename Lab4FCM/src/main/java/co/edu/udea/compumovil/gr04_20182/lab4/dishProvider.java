@@ -45,7 +45,7 @@ public class dishProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        populateListItem();
+        //populateListItem();
     }
 
     @Override
@@ -107,6 +107,7 @@ public class dishProvider implements RemoteViewsService.RemoteViewsFactory {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DishPojo dishPojo = new DishPojo();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
+                    Log.d("Widget provider ", "Received"+dishPojos.size());
                     dishPojo = data.getValue(DishPojo.class);
                 }
                 if(dishPojos.isEmpty() /*|| dishPojo.getName()==""*/) {
@@ -114,7 +115,7 @@ public class dishProvider implements RemoteViewsService.RemoteViewsFactory {
                 }else {
                     dishPojos.set(0, dishPojo);
                 }
-
+                AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId,R.id.widget_list_view);
             }
 
             @Override
