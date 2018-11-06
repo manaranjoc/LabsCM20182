@@ -98,8 +98,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         int id = sharedPreferences.getInt("id",-1);
-        UsersDbHelper usersDbHelper = new UsersDbHelper(getActivity().getApplicationContext());
-        SQLiteDatabase db = usersDbHelper.getWritableDatabase();
+
         if(s.equals("email")){
             user.updateEmail(sharedPreferences.getString("email", ""))
             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -135,9 +134,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         }
                     });
         }else if(s.equals("interval")){
-            Intent service = new Intent(getContext(), ReceiverService.class);
-            service.putExtra("interval", Integer.parseInt(sharedPreferences.getString("interval", "60")));
-            getContext().startService(service);
+
         }else if(s.equals("allow_notifications")){
             if(sharedPreferences.getBoolean(s, true)) {
                 FirebaseMessaging.getInstance().subscribeToTopic("notifications");

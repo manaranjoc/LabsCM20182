@@ -71,7 +71,7 @@ public class DishFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         recyclerView = view.findViewById(R.id.dish_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_dish_container);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_dish_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(android.R.color.holo_green_dark),

@@ -66,7 +66,7 @@ public class DrinksFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView = view.findViewById(R.id.drinks_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_drinks_container);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_drinks_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(android.R.color.holo_green_dark),

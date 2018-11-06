@@ -41,13 +41,6 @@
             android:name=".DishActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <receiver android:name=".ServiceStater">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".ReceiverService" />
         <service
             android:name=".MyFirebaseMessagingService"
             android:enabled="true"

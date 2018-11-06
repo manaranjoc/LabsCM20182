@@ -72,7 +72,7 @@ public class DrinksActivity extends AppCompatActivity {
                                     @Override
                                     public void onImageSelected(Uri uri) {
                                         // here is selected uri
-                                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("bebidas", context.MODE_PRIVATE);
+                                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("bebidas", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("uri",uri.toString());
                                         editor.apply();
@@ -244,7 +244,7 @@ public class DrinksActivity extends AppCompatActivity {
     }
 
     public void loadPreferences(){
-        SharedPreferences preferencias= getSharedPreferences("bebidas", context.MODE_PRIVATE);
+        SharedPreferences preferencias= getSharedPreferences("bebidas", MODE_PRIVATE);
         TextView name = findViewById(R.id.name),
                 ingredients = findViewById(R.id.ingredients),
                 price = findViewById(R.id.price);
@@ -269,7 +269,7 @@ public class DrinksActivity extends AppCompatActivity {
                 price = findViewById(R.id.price);
 
 
-        SharedPreferences preferencias= getSharedPreferences("bebidas", context.MODE_PRIVATE);
+        SharedPreferences preferencias= getSharedPreferences("bebidas", MODE_PRIVATE);
         SharedPreferences.Editor editor= preferencias.edit();
         editor.putString("name", name.getText().toString());
         editor.putString("ingredients", ingredients.getText().toString());

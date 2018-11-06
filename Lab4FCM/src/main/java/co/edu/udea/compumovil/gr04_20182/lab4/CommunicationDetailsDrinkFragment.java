@@ -2,6 +2,6 @@ package co.edu.udea.compumovil.gr04_20182.lab4;
 
 public interface CommunicationDetailsDrinkFragment {
 
-    public void sendDrink(DrinkPojo drinkPojo);
+    void sendDrink(DrinkPojo drinkPojo);
 
 }
