@@ -30,7 +30,7 @@ public class lastDishWidget extends AppWidgetProvider {
         Intent svcIntent = new Intent(context, dishWidgetService.class);
         svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
-        views.setRemoteAdapter(appWidgetId,R.id.widget_list_view,svcIntent);
+        views.setRemoteAdapter(R.id.widget_list_view,svcIntent);
         views.setEmptyView(R.id.widget_list_view, R.layout.widget_item);
 
         return views;

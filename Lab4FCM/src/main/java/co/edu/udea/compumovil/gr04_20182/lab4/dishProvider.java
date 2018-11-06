@@ -39,7 +39,8 @@ public class dishProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-
+        Log.d("Widget provider ", "Created? "+dishPojos.size());
+        populateListItem();
     }
 
     @Override
@@ -61,12 +62,13 @@ public class dishProvider implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int i) {
         final RemoteViews remoteViews = new RemoteViews(
                 context.getPackageName(),R.layout.widget_item);
-        remoteViews.setTextViewText(R.id.nameWidget, dishPojos.get(0).getName());
-        remoteViews.setTextViewText(R.id.typeWidget, dishPojos.get(0).getType());
-        remoteViews.setTextViewText(R.id.priceWidget, dishPojos.get(0).getPrice());
-        remoteViews.setTextViewText(R.id.timeWidget, dishPojos.get(0).getTime());
+        remoteViews.setTextViewText(R.id.nameWidget, dishPojos.get(i).getName());
+        remoteViews.setTextViewText(R.id.typeWidget, dishPojos.get(i).getType());
+        remoteViews.setTextViewText(R.id.priceWidget, dishPojos.get(i).getPrice());
+        remoteViews.setTextViewText(R.id.timeWidget, dishPojos.get(i).getTime());
         try {
-            Bitmap b = Picasso.get().load(dishPojos.get(0).getImageUri()).placeholder(R.drawable.pizza_peperonni).error(R.drawable.pizza_peperonni).get();
+            Log.d("Widget provider ", "Runnning"+dishPojos.size());
+            Bitmap b = Picasso.get().load(dishPojos.get(i).getImageUri()).placeholder(R.drawable.pizza_peperonni).error(R.drawable.pizza_peperonni).get();
             remoteViews.setImageViewBitmap(R.id.imageWidget, b);
         }catch(IOException e){
             e.printStackTrace();
@@ -107,7 +109,12 @@ public class dishProvider implements RemoteViewsService.RemoteViewsFactory {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     dishPojo = data.getValue(DishPojo.class);
                 }
-                dishPojos.add(dishPojo);
+                if(dishPojos.isEmpty() /*|| dishPojo.getName()==""*/) {
+                    dishPojos.add(dishPojo);
+                }else {
+                    dishPojos.set(0, dishPojo);
+                }
+
             }
 
             @Override
