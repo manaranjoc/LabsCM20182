@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lab3ServicesGr04</string>
+    <string name="app_name">Lab4FCMGr04</string>
     <string name="Icon">Icono</string>
     <string name="plate_name">Nombre Plato</string>
     <string name="morning">Mañana</string>

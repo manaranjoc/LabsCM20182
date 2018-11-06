@@ -49,7 +49,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder;
-        if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("allow_sound", false)){
+        if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("allow_sound", true)){
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             notificationBuilder = new NotificationCompat.Builder(this)
